@@ -1,10 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8"/>
+    <title>Error</title>
 </head>
 <body>
-$END$
+
+<h2>Error</h2>
+
+<nav>
+    <a href="/customers">Customers</a> |
+    <a href="/products">Products</a> |
+    <a href="/stores">Stores</a> |
+    <a href="/orders">Orders</a> |
+    <a href="/inventory">Inventory</a> |
+    <a href="/shipments">Shipments</a>
+</nav>
+
+<hr/>
+
+<p th:text="${errorMessage}">An unexpected error occurred.</p>
+
+<br/>
+<a href="javascript:history.back()">Go Back</a>
+
 </body>
 </html>
