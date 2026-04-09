@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Shipments</title>
+</head>
+<body>
+
+<h2>Shipments</h2>
+
+<nav>
+    <a href="/customers">Customers</a> |
+    <a href="/products">Products</a> |
+    <a href="/stores">Stores</a> |
+    <a href="/orders">Orders</a> |
+    <a href="/inventory">Inventory</a> |
+    <a href="/shipments">Shipments</a>
+</nav>
+
+<hr/>
+
+<div th:if="${successMessage}">
+    <p th:text="${successMessage}"></p>
+</div>
+
+<a href="/shipments/new">+ Add Shipment</a>
+
+<br/><br/>
+
+<!-- Filter by status -->
+<form action="/shipments" method="get">
+    <select name="status">
+        <option value="">-- All Statuses --</option>
+        <option value="CREATED"    th:selected="${selectedStatus == 'CREATED'}">CREATED</option>
+        <option value="SHIPPED"    th:selected="${selectedStatus == 'SHIPPED'}">SHIPPED</option>
+        <option value="IN-TRANSIT" th:selected="${selectedStatus == 'IN-TRANSIT'}">IN-TRANSIT</option>
+        <option value="DELIVERED"  th:selected="${selectedStatus == 'DELIVERED'}">DELIVERED</option>
+    </select>
+    <button type="submit">Filter</button>
+    <a href="/shipments">Clear</a>
+</form>
+
+<br/>
+
+<table border="1" cellpadding="6" cellspacing="0">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Order ID</th>
+        <th>Customer</th>
+        <th>Store</th>
+        <th>Delivery Address</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${#lists.isEmpty(shipments)}">
+        <td colspan="7">No shipments found.</td>
+    </tr>
+    <tr th:each="shipment : ${shipments}">
+        <td th:text="${shipment.shipmentId}"></td>
+        <td th:text="${shipment.order.orderId}"></td>
+        <td th:text="${shipment.customer.fullName}"></td>
+        <td th:text="${shipment.store.storeName}"></td>
+        <td th:text="${shipment.deliveryAddress}"></td>
+        <td th:text="${shipment.shipmentStatus}"></td>
+        <td>
+            <a th:href="@{/shipments/edit/{id}(id=${shipment.shipmentId})}">Edit</a> |
+            <a th:href="@{/shipments/delete/{id}(id=${shipment.shipmentId})}"
+               onclick="return confirm('Delete this shipment?')">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
