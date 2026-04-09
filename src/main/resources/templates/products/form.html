@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="${formTitle}">Product Form</title>
+</head>
+<body>
+
+<h2 th:text="${formTitle}">Product Form</h2>
+
+<nav>
+    <a href="/customers">Customers</a> |
+    <a href="/products">Products</a> |
+    <a href="/stores">Stores</a> |
+    <a href="/orders">Orders</a> |
+    <a href="/inventory">Inventory</a> |
+    <a href="/shipments">Shipments</a>
+</nav>
+
+<hr/>
+
+<a href="/products">Back to List</a>
+
+<br/><br/>
+
+<form th:action="@{/products/save}" th:object="${product}" method="post">
+
+    <input type="hidden" th:field="*{productId}"/>
+
+    <table>
+        <tr>
+            <td><label for="productName">Product Name</label></td>
+            <td>
+                <input type="text" id="productName" th:field="*{productName}"
+                       placeholder="Enter product name"/>
+                <span th:if="${#fields.hasErrors('productName')}"
+                      th:errors="*{productName}" style="color:red"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="brand">Brand</label></td>
+            <td>
+                <input type="text" id="brand" th:field="*{brand}"
+                       placeholder="Enter brand"/>
+                <span th:if="${#fields.hasErrors('brand')}"
+                      th:errors="*{brand}" style="color:red"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="colour">Colour</label></td>
+            <td>
+                <input type="text" id="colour" th:field="*{colour}"
+                       placeholder="Enter colour"/>
+                <span th:if="${#fields.hasErrors('colour')}"
+                      th:errors="*{colour}" style="color:red"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="size">Size</label></td>
+            <td>
+                <select id="size" th:field="*{size}">
+                    <option value="">-- Select Size --</option>
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
+                    <option value="XXL">XXL</option>
+                </select>
+                <span th:if="${#fields.hasErrors('size')}"
+                      th:errors="*{size}" style="color:red"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="unitPrice">Unit Price</label></td>
+            <td>
+                <input type="number" id="unitPrice" th:field="*{unitPrice}"
+                       placeholder="Enter unit price" step="0.01" min="0"/>
+                <span th:if="${#fields.hasErrors('unitPrice')}"
+                      th:errors="*{unitPrice}" style="color:red"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="rating">Rating (1-5)</label></td>
+            <td>
+                <select id="rating" th:field="*{rating}">
+                    <option value="">-- Select Rating --</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <span th:if="${#fields.hasErrors('rating')}"
+                      th:errors="*{rating}" style="color:red"></span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button type="submit">Save Product</button>
+                <a href="/products">Cancel</a>
+            </td>
+        </tr>
+    </table>
+
+</form>
+
+</body>
+</html>
