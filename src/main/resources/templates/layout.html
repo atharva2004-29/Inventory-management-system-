@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Order Inventory System</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<nav>
+    <div class="nav-brand">Order Inventory System</div>
+    <div class="nav-links">
+        <a th:href="@{/customers}">Customers</a>
+        <a th:href="@{/products}">Products</a>
+        <a th:href="@{/stores}">Stores</a>
+        <a th:href="@{/orders}">Orders</a>
+        <a th:href="@{/inventory}">Inventory</a>
+        <a th:href="@{/shipments}">Shipments</a>
+    </div>
+</nav>
+
+<div class="container">
+    <!-- Flash messages -->
+    <div th:if="${successMessage}" class="alert alert-success">
+        <span th:text="${successMessage}"></span>
+    </div>
+    <div th:if="${errorMessage}" class="alert alert-error">
+        <span th:text="${errorMessage}"></span>
+    </div>
+
+    <!-- Page content injected here -->
+    <th:block th:fragment="content"></th:block>
+</div>
+
+</body>
+</html>

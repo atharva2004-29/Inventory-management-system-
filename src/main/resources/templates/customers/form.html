@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title th:text="${formTitle}">Customer Form</title>
+</head>
+<body>
+
+<h2 th:text="${formTitle}">Customer Form</h2>
+
+<nav>
+  <a href="/customers">Customers</a> |
+  <a href="/products">Products</a> |
+  <a href="/stores">Stores</a> |
+  <a href="/orders">Orders</a> |
+  <a href="/inventory">Inventory</a> |
+  <a href="/shipments">Shipments</a>
+</nav>
+
+<hr/>
+
+<a href="/customers">Back to List</a>
+
+<br/><br/>
+
+<form th:action="@{/customers/save}" th:object="${customer}" method="post">
+
+  <input type="hidden" th:field="*{customerId}"/>
+
+  <table>
+    <tr>
+      <td><label for="fullName">Full Name</label></td>
+      <td>
+        <input type="text" id="fullName" th:field="*{fullName}"
+               placeholder="Enter full name"/>
+        <span th:if="${#fields.hasErrors('fullName')}"
+              th:errors="*{fullName}" style="color:red"></span>
+      </td>
+    </tr>
+    <tr>
+      <td><label for="emailAddress">Email Address</label></td>
+      <td>
+        <input type="email" id="emailAddress" th:field="*{emailAddress}"
+               placeholder="Enter email address"/>
+        <span th:if="${#fields.hasErrors('emailAddress')}"
+              th:errors="*{emailAddress}" style="color:red"></span>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <button type="submit">Save Customer</button>
+        <a href="/customers">Cancel</a>
+      </td>
+    </tr>
+  </table>
+
+</form>
+
+</body>
+</html>

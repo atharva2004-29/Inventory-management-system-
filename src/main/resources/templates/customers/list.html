@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Customers</title>
+</head>
+<body>
+
+<h2>Customers</h2>
+
+<nav>
+    <a href="/customers">Customers</a> |
+    <a href="/products">Products</a> |
+    <a href="/stores">Stores</a> |
+    <a href="/orders">Orders</a> |
+    <a href="/inventory">Inventory</a> |
+    <a href="/shipments">Shipments</a>
+</nav>
+
+<hr/>
+
+<div th:if="${successMessage}">
+    <p th:text="${successMessage}"></p>
+</div>
+
+<a href="/customers/new">+ Add Customer</a>
+
+<br/><br/>
+
+<!-- Search -->
+<form action="/customers" method="get">
+    <input type="text" name="search" placeholder="Search by name..."
+           th:value="${search}"/>
+    <button type="submit">Search</button>
+    <a href="/customers">Clear</a>
+</form>
+
+<br/>
+
+<!-- Table -->
+<table border="1" cellpadding="6" cellspacing="0">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Full Name</th>
+        <th>Email Address</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${#lists.isEmpty(customers)}">
+        <td colspan="4">No customers found.</td>
+    </tr>
+    <tr th:each="customer : ${customers}">
+        <td th:text="${customer.customerId}"></td>
+        <td th:text="${customer.fullName}"></td>
+        <td th:text="${customer.emailAddress}"></td>
+        <td>
+            <a th:href="@{/customers/edit/{id}(id=${customer.customerId})}">Edit</a> |
+            <a th:href="@{/customers/delete/{id}(id=${customer.customerId})}"
+               onclick="return confirm('Delete this customer?')">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
