@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Stores</title>
+</head>
+<body>
+
+<h2>Stores</h2>
+
+<nav>
+  <a href="/customers">Customers</a> |
+  <a href="/products">Products</a> |
+  <a href="/stores">Stores</a> |
+  <a href="/orders">Orders</a> |
+  <a href="/inventory">Inventory</a> |
+  <a href="/shipments">Shipments</a>
+</nav>
+
+<hr/>
+
+<div th:if="${successMessage}">
+  <p th:text="${successMessage}"></p>
+</div>
+
+<a href="/stores/new">+ Add Store</a>
+
+<br/><br/>
+
+<!-- Search -->
+<form action="/stores" method="get">
+  <input type="text" name="search" placeholder="Search by name..."
+         th:value="${search}"/>
+  <button type="submit">Search</button>
+  <a href="/stores">Clear</a>
+</form>
+
+<br/>
+
+<!-- Table -->
+<table border="1" cellpadding="6" cellspacing="0">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Store Name</th>
+    <th>Web Address</th>
+    <th>Physical Address</th>
+    <th>Latitude</th>
+    <th>Longitude</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:if="${#lists.isEmpty(stores)}">
+    <td colspan="7">No stores found.</td>
+  </tr>
+  <tr th:each="store : ${stores}">
+    <td th:text="${store.storeId}"></td>
+    <td th:text="${store.storeName}"></td>
+    <td th:text="${store.webAddress}"></td>
+    <td th:text="${store.physicalAddress}"></td>
+    <td th:text="${store.latitude}"></td>
+    <td th:text="${store.longitude}"></td>
+    <td>
+      <a th:href="@{/stores/edit/{id}(id=${store.storeId})}">Edit</a> |
+      <a th:href="@{/stores/delete/{id}(id=${store.storeId})}"
+         onclick="return confirm('Delete this store?')">Delete</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+</body>
+</html>

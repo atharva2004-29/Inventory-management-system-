@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Products</title>
+</head>
+<body>
+
+<h2>Products</h2>
+
+<nav>
+    <a href="/customers">Customers</a> |
+    <a href="/products">Products</a> |
+    <a href="/stores">Stores</a> |
+    <a href="/orders">Orders</a> |
+    <a href="/inventory">Inventory</a> |
+    <a href="/shipments">Shipments</a>
+</nav>
+
+<hr/>
+
+<div th:if="${successMessage}">
+    <p th:text="${successMessage}"></p>
+</div>
+
+<a href="/products/new">+ Add Product</a>
+
+<br/><br/>
+
+<!-- Search -->
+<form action="/products" method="get">
+    <input type="text" name="search" placeholder="Search by name..."
+           th:value="${search}"/>
+    <button type="submit">Search</button>
+    <a href="/products">Clear</a>
+</form>
+
+<br/>
+
+<!-- Table -->
+<table border="1" cellpadding="6" cellspacing="0">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Product Name</th>
+        <th>Brand</th>
+        <th>Colour</th>
+        <th>Size</th>
+        <th>Unit Price</th>
+        <th>Rating</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${#lists.isEmpty(products)}">
+        <td colspan="8">No products found.</td>
+    </tr>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.productId}"></td>
+        <td th:text="${product.productName}"></td>
+        <td th:text="${product.brand}"></td>
+        <td th:text="${product.colour}"></td>
+        <td th:text="${product.size}"></td>
+        <td th:text="${product.unitPrice}"></td>
+        <td th:text="${product.rating}"></td>
+        <td>
+            <a th:href="@{/products/edit/{id}(id=${product.productId})}">Edit</a> |
+            <a th:href="@{/products/delete/{id}(id=${product.productId})}"
+               onclick="return confirm('Delete this product?')">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
