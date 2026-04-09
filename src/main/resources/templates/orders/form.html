@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="${formTitle}">Order Form</title>
+</head>
+<body>
+
+<h2 th:text="${formTitle}">Order Form</h2>
+
+<nav>
+    <a href="/customers">Customers</a> |
+    <a href="/products">Products</a> |
+    <a href="/stores">Stores</a> |
+    <a href="/orders">Orders</a> |
+    <a href="/inventory">Inventory</a> |
+    <a href="/shipments">Shipments</a>
+</nav>
+
+<hr/>
+
+<a href="/orders">Back to List</a>
+
+<br/><br/>
+
+<form th:action="@{/orders/save}" th:object="${order}" method="post">
+
+    <input type="hidden" th:field="*{orderId}"/>
+
+    <table>
+        <tr>
+            <td><label for="customer">Customer</label></td>
+            <td>
+                <select id="customer" th:field="*{customer}">
+                    <option value="">-- Select Customer --</option>
+                    <option th:each="c : ${customers}"
+                            th:value="${c.customerId}"
+                            th:text="${c.fullName}">
+                    </option>
+                </select>
+                <span th:if="${#fields.hasErrors('customer')}"
+                      th:errors="*{customer}" style="color:red"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="store">Store</label></td>
+            <td>
+                <select id="store" th:field="*{store}">
+                    <option value="">-- Select Store --</option>
+                    <option th:each="s : ${stores}"
+                            th:value="${s.storeId}"
+                            th:text="${s.storeName}">
+                    </option>
+                </select>
+                <span th:if="${#fields.hasErrors('store')}"
+                      th:errors="*{store}" style="color:red"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="orderTms">Order Time</label></td>
+            <td>
+                <input type="datetime-local" id="orderTms" th:field="*{orderTms}"/>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="orderStatus">Status</label></td>
+            <td>
+                <select id="orderStatus" th:field="*{orderStatus}">
+                    <option value="">-- Select Status --</option>
+                    <option value="OPEN">OPEN</option>
+                    <option value="PAID">PAID</option>
+                    <option value="SHIPPED">SHIPPED</option>
+                    <option value="COMPLETE">COMPLETE</option>
+                    <option value="CANCELLED">CANCELLED</option>
+                    <option value="REFUNDED">REFUNDED</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button type="submit">Save Order</button>
+                <a href="/orders">Cancel</a>
+            </td>
+        </tr>
+    </table>
+
+</form>
+
+</body>
+</html>
