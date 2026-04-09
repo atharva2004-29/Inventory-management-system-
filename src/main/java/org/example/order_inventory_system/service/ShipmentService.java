@@ -36,8 +36,4 @@ public class ShipmentService {
     public List<Shipment> findByCustomerId(Integer customerId) {
         return shipmentRepository.findByCustomer_CustomerId(customerId);
     }
-
-    public List<Shipment> findByOrderId(Integer orderId) {
-        return shipmentRepository.findByOrder_OrderId(orderId);
-    }
 }

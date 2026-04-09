@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.order_inventory_system.model.Shipment;
 import org.example.order_inventory_system.service.CustomerService;
-import org.example.order_inventory_system.service.OrderService;
 import org.example.order_inventory_system.service.ShipmentService;
 import org.example.order_inventory_system.service.StoreService;
 import org.springframework.stereotype.Controller;
@@ -19,7 +18,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class ShipmentController {
 
     private final ShipmentService shipmentService;
-    private final OrderService orderService;
     private final StoreService storeService;
     private final CustomerService customerService;
 
@@ -40,7 +38,6 @@ public class ShipmentController {
     public String showAddForm(Model model) {
         model.addAttribute("shipment", new Shipment());
         model.addAttribute("formTitle", "Add Shipment");
-        model.addAttribute("orders", orderService.findAll());
         model.addAttribute("stores", storeService.findAll());
         model.addAttribute("customers", customerService.findAll());
         return "shipments/form";
@@ -51,7 +48,6 @@ public class ShipmentController {
     public String showEditForm(@PathVariable Integer id, Model model) {
         model.addAttribute("shipment", shipmentService.findById(id));
         model.addAttribute("formTitle", "Edit Shipment");
-        model.addAttribute("orders", orderService.findAll());
         model.addAttribute("stores", storeService.findAll());
         model.addAttribute("customers", customerService.findAll());
         return "shipments/form";
@@ -66,7 +62,6 @@ public class ShipmentController {
         if (result.hasErrors()) {
             model.addAttribute("formTitle",
                     shipment.getShipmentId() == null ? "Add Shipment" : "Edit Shipment");
-            model.addAttribute("orders", orderService.findAll());
             model.addAttribute("stores", storeService.findAll());
             model.addAttribute("customers", customerService.findAll());
             return "shipments/form";

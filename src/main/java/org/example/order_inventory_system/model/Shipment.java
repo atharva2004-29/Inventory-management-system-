@@ -14,11 +14,6 @@ public class Shipment {
     @Column(name = "shipment_id")
     private Integer shipmentId;
 
-//    @NotNull(message = "Order is required")
-//    @ManyToOne
-//    @JoinColumn(name = "order_id", nullable = false)
-//    private Order order;
-
     @NotNull(message = "Store is required")
     @ManyToOne
     @JoinColumn(name = "store_id", nullable = false)

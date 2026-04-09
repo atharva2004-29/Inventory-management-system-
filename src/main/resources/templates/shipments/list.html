@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -46,7 +47,6 @@
     <thead>
     <tr>
         <th>ID</th>
-        <th>Order ID</th>
         <th>Customer</th>
         <th>Store</th>
         <th>Delivery Address</th>
@@ -56,11 +56,10 @@
     </thead>
     <tbody>
     <tr th:if="${#lists.isEmpty(shipments)}">
-        <td colspan="7">No shipments found.</td>
+        <td colspan="6">No shipments found.</td>
     </tr>
     <tr th:each="shipment : ${shipments}">
         <td th:text="${shipment.shipmentId}"></td>
-        <td th:text="${shipment.order.orderId}"></td>
         <td th:text="${shipment.customer.fullName}"></td>
         <td th:text="${shipment.store.storeName}"></td>
         <td th:text="${shipment.deliveryAddress}"></td>
@@ -76,3 +75,4 @@
 
 </body>
 </html>
+```
