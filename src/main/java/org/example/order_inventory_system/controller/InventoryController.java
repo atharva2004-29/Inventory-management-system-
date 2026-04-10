@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/inventory")
 @RequiredArgsConstructor
-public class InventoryController {
+public class  InventoryController {
 
     private final InventoryService inventoryService;
     private final ProductService productService;
