@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Inventory</title>
+</head>
+<body>
+
+<h2>Inventory</h2>
+
+<nav>
+    <a href="/customers">Customers</a> |
+    <a href="/products">Products</a> |
+    <a href="/stores">Stores</a> |
+    <a href="/orders">Orders</a> |
+    <a href="/inventory">Inventory</a> |
+    <a href="/shipments">Shipments</a>
+</nav>
+
+<hr/>
+
+<div th:if="${successMessage}">
+    <p th:text="${successMessage}"></p>
+</div>
+
+<a href="/inventory/new">+ Add Inventory</a>
+
+<br/><br/>
+
+<!-- Filter by low stock -->
+<form action="/inventory" method="get">
+    <input type="number" name="threshold" placeholder="Low stock threshold..."
+           th:value="${threshold}" min="1"/>
+    <button type="submit">Filter Low Stock</button>
+    <a href="/inventory">Clear</a>
+</form>
+
+<br/>
+
+<table border="1" cellpadding="6" cellspacing="0">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Product</th>
+        <th>Store</th>
+        <th>Stock</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${#lists.isEmpty(inventories)}">
+        <td colspan="5">No inventory records found.</td>
+    </tr>
+    <tr th:each="inv : ${inventories}">
+        <td th:text="${inv.inventoryId}"></td>
+        <td th:text="${inv.product.productName}"></td>
+        <td th:text="${inv.store.storeName}"></td>
+        <td th:text="${inv.productInventory}"></td>
+        <td>
+            <a th:href="@{/inventory/edit/{id}(id=${inv.inventoryId})}">Edit</a> |
+            <a th:href="@{/inventory/delete/{id}(id=${inv.inventoryId})}"
+               onclick="return confirm('Delete this inventory record?')">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
