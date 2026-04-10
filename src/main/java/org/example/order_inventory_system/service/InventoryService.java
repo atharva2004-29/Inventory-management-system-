@@ -1,67 +1,68 @@
 package org.example.order_inventory_system.service;
 
-
+import lombok.RequiredArgsConstructor;
 import org.example.order_inventory_system.model.Inventory;
 import org.example.order_inventory_system.repository.InventoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class InventoryService {
 
-    @Autowired
-    private InventoryRepository inventoryRepository;
+    private final InventoryRepository inventoryRepository;
 
-    public Inventory addInventory(Inventory inventory) {
-        return inventoryRepository.save(inventory);
-    }
-
-    public List<Inventory> getAllInventory() {
+    public List<Inventory> findAll() {
         return inventoryRepository.findAll();
     }
 
-    public Optional<Inventory> getByProductId(Integer productId) {
-        return inventoryRepository.findByProductId(productId);
+    public Inventory findById(Integer id) {
+        return inventoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Inventory not found: " + id));
     }
 
-    public Inventory updateInventory(Integer productId, Integer quantity) {
-        Inventory inventory = inventoryRepository.findByProductId(productId)
-                .orElseThrow(() -> new RuntimeException("Product not found in inventory"));
+    public Optional<Inventory> findByProductId(Integer productId) {
+        return inventoryRepository.findByProduct_ProductId(productId);
+    }
 
-        inventory.setQuantity(quantity);
+    public List<Inventory> findByStoreId(Integer storeId) {
+        return inventoryRepository.findByStore_StoreId(storeId);
+    }
+
+    public List<Inventory> findLowStock(Integer threshold) {
+        return inventoryRepository.findByProductInventoryLessThan(threshold);
+    }
+
+    public Inventory save(Inventory inventory) {
         return inventoryRepository.save(inventory);
     }
 
-    public void deleteInventory(Integer id) {
+    public Inventory updateQuantity(Integer id, Integer productInventory) {
+        Inventory inventory = findById(id);
+        inventory.setProductInventory(productInventory);
+        return inventoryRepository.save(inventory);
+    }
+
+    public void deleteById(Integer id) {
         inventoryRepository.deleteById(id);
     }
 
-    public List<Inventory> getLowStockItems(Integer threshold) {
-        return inventoryRepository.findByQuantityLessThan(threshold);
-    }
-
-
     public boolean reserveStock(Integer productId, Integer quantity) {
-        Inventory inventory = inventoryRepository.findByProductId(productId)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
-
-        if (inventory.getQuantity() >= quantity) {
-            inventory.setQuantity(inventory.getQuantity() - quantity);
-            inventoryRepository.save(inventory);
+        Optional<Inventory> opt = inventoryRepository.findByProduct_ProductId(productId);
+        if (opt.isPresent() && opt.get().getProductInventory() >= quantity) {
+            opt.get().setProductInventory(opt.get().getProductInventory() - quantity);
+            inventoryRepository.save(opt.get());
             return true;
         }
         return false;
     }
 
-
     public void releaseStock(Integer productId, Integer quantity) {
-        Inventory inventory = inventoryRepository.findByProductId(productId)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
-
-        inventory.setQuantity(inventory.getQuantity() + quantity);
-        inventoryRepository.save(inventory);
+        Optional<Inventory> opt = inventoryRepository.findByProduct_ProductId(productId);
+        opt.ifPresent(inv -> {
+            inv.setProductInventory(inv.getProductInventory() + quantity);
+            inventoryRepository.save(inv);
+        });
     }
 }
