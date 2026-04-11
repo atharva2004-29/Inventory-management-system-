@@ -18,22 +18,17 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public void registerCustomer(User user) {
-        // check email not already taken
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new RuntimeException("Email already registered: " + user.getEmail());
         }
-
-        // encode password
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode("NO_PASSWORD")); // dummy password
         user.setRole(Role.ROLE_CUSTOMER);
 
-        // create matching Customer record
         Customer customer = new Customer();
         customer.setFullName(user.getFullName());
         customer.setEmailAddress(user.getEmail());
         Customer savedCustomer = customerRepository.save(customer);
 
-        // link user to customer
         user.setCustomer(savedCustomer);
         userRepository.save(user);
     }

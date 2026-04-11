@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"/><title>Browse Products</title></head>
+<body>
+<h2>Browse Products</h2>
+<nav>
+    <a href="/customer/dashboard">Dashboard</a> |
+    <a href="/customer/products">Browse Products</a> |
+    <a href="/customer/orders">My Orders</a> |
+    <a href="/customer/shipments">My Shipments</a> |
+    <form action="/logout" method="post" style="display:inline">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <button type="submit">Logout</button>
+    </form>
+</nav>
+<hr/>
+<form action="/customer/products" method="get">
+    <input type="text" name="search" placeholder="Search by name..."
+           th:value="${search}"/>
+    <button type="submit">Search</button>
+    <a href="/customer/products">Clear</a>
+</form>
+<br/>
+<table border="1" cellpadding="6" cellspacing="0">
+    <thead>
+    <tr>
+        <th>Name</th><th>Brand</th><th>Colour</th>
+        <th>Size</th><th>Price</th><th>Rating</th><th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${#lists.isEmpty(products)}">
+        <td colspan="7">No products found.</td>
+    </tr>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.productName}"></td>
+        <td th:text="${product.brand}"></td>
+        <td th:text="${product.colour}"></td>
+        <td th:text="${product.size}"></td>
+        <td th:text="${product.unitPrice}"></td>
+        <td th:text="${product.rating}"></td>
+        <td>
+            <a th:href="@{/customer/order/new(productId=${product.productId})}">
+                Order
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

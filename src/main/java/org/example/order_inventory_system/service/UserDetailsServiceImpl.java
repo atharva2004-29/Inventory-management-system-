@@ -2,6 +2,8 @@ package org.example.order_inventory_system.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.order_inventory_system.model.User;
+import org.example.order_inventory_system.model.Customer;
+import org.example.order_inventory_system.repository.CustomerRepository;
 import org.example.order_inventory_system.repository.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,43 +12,37 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
-
-//    @Override
-//    public UserDetails loadUserByUsername(String email)
-//            throws UsernameNotFoundException {
-//        User user = userRepository.findByEmail(email)
-//                .orElseThrow(() ->
-//                    new UsernameNotFoundException("No user found with email: " + email));
-//
-//        return new org.springframework.security.core.userdetails.User(
-//                user.getEmail(),
-//                user.getPassword(),
-//                List.of(new SimpleGrantedAuthority(user.getRole().name()))
-//        );
-//    }
+    private final CustomerRepository customerRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        System.out.println(">>> Trying to load user: " + email);  // ADD THIS
+        // check users table first (admin)
+        Optional<User> userOpt = userRepository.findByEmail(email);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            return new org.springframework.security.core.userdetails.User(
+                    user.getEmail(),
+                    user.getPassword(),
+                    List.of(new SimpleGrantedAuthority(user.getRole().name()))
+            );
+        }
 
-        User user = userRepository.findByEmail(email)
+        // check customers table (email-only login)
+        Customer customer = customerRepository.findByEmailAddress(email)
                 .orElseThrow(() ->
-                        new UsernameNotFoundException("No user found with email: " + email));
-
-        System.out.println(">>> Found user: " + user.getEmail() + " role: " + user.getRole());
-        System.out.println(">>> Password hash from DB: " + user.getPassword()); // ADD THIS
-// ADD THIS
+                        new UsernameNotFoundException("No account found: " + email));
 
         return new org.springframework.security.core.userdetails.User(
-                user.getEmail(),
-                user.getPassword(),
-                List.of(new SimpleGrantedAuthority(user.getRole().name()))
+                customer.getEmailAddress(),
+                "",
+                List.of(new SimpleGrantedAuthority("ROLE_CUSTOMER"))
         );
     }
 }

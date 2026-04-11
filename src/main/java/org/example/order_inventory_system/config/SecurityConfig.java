@@ -36,7 +36,7 @@ public class SecurityConfig {
                 .userDetailsService(userDetailsService)
                 .authorizeHttpRequests(auth -> auth
                         // public pages
-                        .requestMatchers( "/login", "/register", "/css/**").permitAll()
+                        .requestMatchers("/login", "/admin-login", "/customer-login", "/register").permitAll()
                         // customer pages
                         .requestMatchers("/customer/**").hasAuthority("ROLE_CUSTOMER")
                         // admin pages
@@ -58,8 +58,7 @@ public class SecurityConfig {
                                 response.sendRedirect("/customer/dashboard");
                             }
                         })
-                        .failureUrl("/login?error=true")
-                        .permitAll()
+                        .failureUrl("/admin-login?error=true")                        .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
