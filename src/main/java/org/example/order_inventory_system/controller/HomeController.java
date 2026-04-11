@@ -24,12 +24,12 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model) {
-        model.addAttribute("totalCustomers",  customerService.findAll().size());
-        model.addAttribute("totalProducts",   productService.findAll().size());
-        model.addAttribute("totalStores",     storeService.findAll().size());
-        model.addAttribute("totalOrders",     orderService.findAll().size());
-        model.addAttribute("totalInventory",  inventoryService.findAll().size());
-        model.addAttribute("totalShipments",  shipmentService.findAll().size());
+//        model.addAttribute("totalCustomers",  customerService.findAll().size());
+//        model.addAttribute("totalProducts",   productService.findAll().size());
+//        model.addAttribute("totalStores",     storeService.findAll().size());
+//        model.addAttribute("totalOrders",     orderService.findAll().size());
+//        model.addAttribute("totalInventory",  inventoryService.findAll().size());
+//        model.addAttribute("totalShipments",  shipmentService.findAll().size());
         return "home";
     }
 }
