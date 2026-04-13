@@ -47,6 +47,9 @@ public class OrderRestController {
     @PostMapping
     public ResponseEntity<Order> create(@Valid @RequestBody Order order) {
         order.setOrderId(null);
+        if (order.getOrderTms() == null) {
+            order.setOrderTms(java.time.LocalDateTime.now()); 
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(orderService.save(order));
     }
 

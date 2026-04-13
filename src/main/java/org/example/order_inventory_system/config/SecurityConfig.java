@@ -39,7 +39,7 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                         // public pages
-                        .requestMatchers("/login", "/admin-login", "/customer-login", "/register","/api/**").permitAll()
+                        .requestMatchers("/login", "/admin-login", "/customer-login", "/register","/api/**","/hash-test").permitAll()
                         // customer pages
                         .requestMatchers("/customer/**").hasAuthority("ROLE_CUSTOMER")
                         // admin pages
