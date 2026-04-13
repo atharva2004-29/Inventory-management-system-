@@ -97,4 +97,7 @@ public class InventoryRestController {
         inventoryService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+
+
 }
