@@ -1,19 +1,13 @@
 package org.example.order_inventory_system.repository;
 
+
 import org.example.order_inventory_system.model.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface OrderRepository extends JpaRepository<Order, Integer> {
+public interface OrdereeRepository extends JpaRepository<Order, Integer> {
     List<Order> findByCustomer_CustomerId(Integer customerId);
     List<Order> findByOrderStatus(String status);
-<<<<<<< HEAD
-
-    List<Order> findByStore_StoreId(Integer storeId);
-
-=======
-    List<Order> findByStore_StoreId(Integer storeId);
->>>>>>> 29802aa9292d8f67a1a91172fa06f56635dfa448
 }

@@ -39,6 +39,7 @@ public class OrderService {
         return orderRepository.findByOrderStatus(status);
     }
 
+<<<<<<< HEAD
     public List<Order> findByCustomerId(Integer customerId) {
         return orderRepository.findByCustomer_CustomerId(customerId);
     }
@@ -78,4 +79,11 @@ public class OrderService {
     public List<Order> findByStoreId(Integer storeId) {
         return orderRepository.findByStore_StoreId(storeId);
     }
+=======
+    public List<Order> findByStoreId(Integer storeId) {
+        return orderRepository.findByStore_StoreId(storeId);
+    }
+
+
+>>>>>>> 29802aa9292d8f67a1a91172fa06f56635dfa448
 }
