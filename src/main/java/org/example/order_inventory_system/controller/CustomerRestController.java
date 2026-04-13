@@ -2,7 +2,13 @@ package org.example.order_inventory_system.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.order_inventory_system.model.Customer;
+import org.example.order_inventory_system.model.Order;
+import org.example.order_inventory_system.model.Shipment;
 import org.example.order_inventory_system.service.CustomerService;
+import org.example.order_inventory_system.service.OrderService;
+import org.example.order_inventory_system.service.ShipmentService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,31 +19,61 @@ import java.util.List;
 public class CustomerRestController {
 
     private final CustomerService customerService;
+    private final OrderService orderService;
+    private final ShipmentService shipmentService;
 
+    // GET all customers
     @GetMapping
-    public List<Customer> getAll() {
-        return customerService.findAll();
+    public ResponseEntity<List<Customer>> getAll() {
+        return ResponseEntity.ok(customerService.findAll());
     }
 
-    @PostMapping
-    public Customer create(@RequestBody Customer customer) {
-        return customerService.save(customer);
-    }
-
+    // GET customer by ID
     @GetMapping("/{id}")
-    public Customer getById(@PathVariable Integer id) {
-        return customerService.findById(id);
+    public ResponseEntity<Customer> getById(@PathVariable Integer id) {
+        return ResponseEntity.ok(customerService.findById(id));
     }
 
+    // GET search customers by name
+    @GetMapping("/search")
+    public ResponseEntity<List<Customer>> search(@RequestParam String name) {
+        return ResponseEntity.ok(customerService.searchByName(name));
+    }
+
+    // GET all orders for a customer
+    @GetMapping("/{id}/orders")
+    public ResponseEntity<List<Order>> getOrdersByCustomer(@PathVariable Integer id) {
+        customerService.findById(id); // throws if not found
+        return ResponseEntity.ok(orderService.findByCustomerId(id));
+    }
+
+    // GET all shipments for a customer
+    @GetMapping("/{id}/shipments")
+    public ResponseEntity<List<Shipment>> getShipmentsByCustomer(@PathVariable Integer id) {
+        customerService.findById(id); // throws if not found
+        return ResponseEntity.ok(shipmentService.findByCustomerId(id));
+    }
+
+    // POST create customer
+    @PostMapping
+    public ResponseEntity<Customer> create(@RequestBody Customer customer) {
+        customer.setCustomerId(null);
+        return ResponseEntity.status(HttpStatus.CREATED).body(customerService.save(customer));
+    }
+
+    // PUT update customer
     @PutMapping("/{id}")
-    public Customer update(@PathVariable Integer id, @RequestBody Customer customer) {
+    public ResponseEntity<Customer> update(@PathVariable Integer id,
+                                           @RequestBody Customer customer) {
+        customerService.findById(id); // throws if not found
         customer.setCustomerId(id);
-        return customerService.save(customer);
+        return ResponseEntity.ok(customerService.save(customer));
     }
 
+    // DELETE customer
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable Integer id) {
+    public ResponseEntity<String> delete(@PathVariable Integer id) {
         customerService.deleteById(id);
-        return "Deleted successfully";
+        return ResponseEntity.ok("Customer deleted successfully");
     }
 }

@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8"/>
-    <title>Order Inventory System</title>
-</head>
+<head><meta charset="UTF-8"/><title>Order Inventory System</title></head>
 <body>
 
 <h1>Order Inventory System</h1>
@@ -14,7 +11,11 @@
     <a href="/stores">Stores</a> |
     <a href="/orders">Orders</a> |
     <a href="/inventory">Inventory</a> |
-    <a href="/shipments">Shipments</a>
+    <a href="/shipments">Shipments</a> |
+    <form action="/logout" method="post" style="display:inline">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <button type="submit">Logout</button>
+    </form>
 </nav>
 
 <hr/>
@@ -25,55 +26,18 @@
     <thead>
     <tr>
         <th>Module</th>
-        <th>Total Records</th>
         <th>Action</th>
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <td>Customers</td>
-        <td th:text="${totalCustomers}"></td>
-        <td><a href="/customers">Manage Customers</a></td>
-    </tr>
-    <tr>
-        <td>Products</td>
-        <td th:text="${totalProducts}"></td>
-        <td><a href="/products">Manage Products</a></td>
-    </tr>
-    <tr>
-        <td>Stores</td>
-        <td th:text="${totalStores}"></td>
-        <td><a href="/stores">Manage Stores</a></td>
-    </tr>
-    <tr>
-        <td>Orders</td>
-        <td th:text="${totalOrders}"></td>
-        <td><a href="/orders">Manage Orders</a></td>
-    </tr>
-    <tr>
-        <td>Inventory</td>
-        <td th:text="${totalInventory}"></td>
-        <td><a href="/inventory">Manage Inventory</a></td>
-    </tr>
-    <tr>
-        <td>Shipments</td>
-        <td th:text="${totalShipments}"></td>
-        <td><a href="/shipments">Manage Shipments</a></td>
-    </tr>
+    <tr><td>Customers</td><td><a href="/customers">Manage Customers</a></td></tr>
+    <tr><td>Products</td><td><a href="/products">Manage Products</a></td></tr>
+    <tr><td>Stores</td><td><a href="/stores">Manage Stores</a></td></tr>
+    <tr><td>Orders</td><td><a href="/orders">Manage Orders</a></td></tr>
+    <tr><td>Inventory</td><td><a href="/inventory">Manage Inventory</a></td></tr>
+    <tr><td>Shipments</td><td><a href="/shipments">Manage Shipments</a></td></tr>
     </tbody>
 </table>
-
-<br/>
-
-<h2>Quick Links</h2>
-<ul>
-    <li><a href="/customers/new">+ Add New Customer</a></li>
-    <li><a href="/products/new">+ Add New Product</a></li>
-    <li><a href="/stores/new">+ Add New Store</a></li>
-    <li><a href="/orders/new">+ Add New Order</a></li>
-    <li><a href="/inventory/new">+ Add New Inventory Record</a></li>
-    <li><a href="/shipments/new">+ Add New Shipment</a></li>
-</ul>
 
 </body>
 </html>
