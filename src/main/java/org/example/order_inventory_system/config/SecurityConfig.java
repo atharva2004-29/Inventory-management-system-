@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -34,9 +35,12 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .userDetailsService(userDetailsService)
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/api/**") // disable CSRF for REST endpoints
+                )
                 .authorizeHttpRequests(auth -> auth
                         // public pages
-                        .requestMatchers("/login", "/admin-login", "/customer-login", "/register").permitAll()
+                        .requestMatchers("/login", "/admin-login", "/customer-login", "/register","/api/**").permitAll()
                         // customer pages
                         .requestMatchers("/customer/**").hasAuthority("ROLE_CUSTOMER")
                         // admin pages
