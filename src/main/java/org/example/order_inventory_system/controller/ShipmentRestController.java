@@ -32,10 +32,6 @@ public class ShipmentRestController {
         return ResponseEntity.ok(shipmentService.findByStatus(status));
     }
 
-    @GetMapping("/customer/{customerId}")
-    public ResponseEntity<List<Shipment>> getByCustomer(@PathVariable Integer customerId) {
-        return ResponseEntity.ok(shipmentService.findByCustomerId(customerId));
-    }
 
     @PostMapping
     public ResponseEntity<Shipment> create(@Valid @RequestBody Shipment shipment) {
@@ -56,4 +52,17 @@ public class ShipmentRestController {
         shipmentService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    // ✅ Get all shipments of a customer
+    @GetMapping("/customer/{customerId}")
+    public List<Shipment> getByCustomer(@PathVariable Integer customerId) {
+        return shipmentService.getByCustomerId(customerId);
+    }
+
+    // ✅ Get all shipments from a store
+    @GetMapping("/store/{storeId}")
+    public List<Shipment> getByStore(@PathVariable Integer storeId) {
+        return shipmentService.getByStoreId(storeId);
+    }
+
 }

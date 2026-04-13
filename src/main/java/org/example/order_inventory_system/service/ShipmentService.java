@@ -36,4 +36,20 @@ public class ShipmentService {
     public List<Shipment> findByCustomerId(Integer customerId) {
         return shipmentRepository.findByCustomer_CustomerId(customerId);
     }
+
+//    --------------------------------------------------------------------------------------------
+
+    // Customer → Shipments
+    public List<Shipment> getByCustomerId(Integer customerId) {
+        return shipmentRepository.findByCustomerCustomerId(customerId);
+    }
+
+    // Store → Shipments
+    public List<Shipment> getByStoreId(Integer storeId) {
+        return shipmentRepository.findByStoreStoreId(storeId);
+    }
+
+
+
+
 }
