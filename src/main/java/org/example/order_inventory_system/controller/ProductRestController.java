@@ -2,13 +2,16 @@ package org.example.order_inventory_system.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.order_inventory_system.model.Inventory;
 import org.example.order_inventory_system.model.Product;
+import org.example.order_inventory_system.service.InventoryService;
 import org.example.order_inventory_system.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/products")
@@ -16,42 +19,44 @@ import java.util.List;
 public class ProductRestController {
 
     private final ProductService productService;
+    private final InventoryService inventoryService;
 
-    // GET all products
     @GetMapping
     public ResponseEntity<List<Product>> getAll() {
         return ResponseEntity.ok(productService.findAll());
     }
 
-    // GET single product by ID
     @GetMapping("/{id}")
     public ResponseEntity<Product> getById(@PathVariable Integer id) {
         return ResponseEntity.ok(productService.findById(id));
     }
 
-    // GET products by name search
     @GetMapping("/search")
     public ResponseEntity<List<Product>> search(@RequestParam String name) {
         return ResponseEntity.ok(productService.searchByName(name));
     }
 
-    // POST create new product
+    // GET inventory for a product (which stores stock it and how many)
+    @GetMapping("/{id}/inventory")
+    public ResponseEntity<Optional<Inventory>> getInventory(@PathVariable Integer id) {
+        productService.findById(id);
+        return ResponseEntity.ok(inventoryService.findByProductId(id));
+    }
+
     @PostMapping
     public ResponseEntity<Product> create(@Valid @RequestBody Product product) {
-        product.setProductId(null); // ensure insert, not update
+        product.setProductId(null);
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.save(product));
     }
 
-    // PUT update existing product
     @PutMapping("/{id}")
     public ResponseEntity<Product> update(@PathVariable Integer id,
                                           @Valid @RequestBody Product product) {
-        productService.findById(id); // throws 500 if not found
+        productService.findById(id);
         product.setProductId(id);
         return ResponseEntity.ok(productService.save(product));
     }
 
-    // DELETE product
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         productService.deleteById(id);

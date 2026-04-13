@@ -17,41 +17,47 @@ public class OrderRestController {
 
     private final OrderService orderService;
 
-    // GET all orders
     @GetMapping
     public ResponseEntity<List<Order>> getAll() {
         return ResponseEntity.ok(orderService.findAll());
     }
 
-    // GET single order by ID
     @GetMapping("/{id}")
     public ResponseEntity<Order> getById(@PathVariable Integer id) {
         return ResponseEntity.ok(orderService.findById(id));
     }
 
-    // GET orders by status
     @GetMapping("/status/{status}")
     public ResponseEntity<List<Order>> getByStatus(@PathVariable String status) {
         return ResponseEntity.ok(orderService.findByStatus(status));
     }
 
-    // POST create new order
-    @PostMapping
-    public ResponseEntity<Order> create(@Valid @RequestBody Order order) {
-        Order saved = orderService.save(order);
-        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    // GET orders by customer
+    @GetMapping("/customer/{customerId}")
+    public ResponseEntity<List<Order>> getByCustomer(@PathVariable Integer customerId) {
+        return ResponseEntity.ok(orderService.findByCustomerId(customerId));
     }
 
-    // PUT update existing order
+    // GET orders by store
+    @GetMapping("/store/{storeId}")
+    public ResponseEntity<List<Order>> getByStore(@PathVariable Integer storeId) {
+        return ResponseEntity.ok(orderService.findByStoreId(storeId));
+    }
+
+    @PostMapping
+    public ResponseEntity<Order> create(@Valid @RequestBody Order order) {
+        order.setOrderId(null);
+        return ResponseEntity.status(HttpStatus.CREATED).body(orderService.save(order));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Order> update(@PathVariable Integer id,
                                         @Valid @RequestBody Order order) {
-        orderService.findById(id); // throws if not found
+        orderService.findById(id);
         order.setOrderId(id);
         return ResponseEntity.ok(orderService.save(order));
     }
 
-    // DELETE order
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         orderService.deleteById(id);
