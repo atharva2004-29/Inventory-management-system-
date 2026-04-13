@@ -32,4 +32,10 @@ public class OrderService {
     public List<Order> findByStatus(String status) {
         return orderRepository.findByOrderStatus(status);
     }
+
+    public List<Order> findByStoreId(Integer storeId) {
+        return orderRepository.findByStore_StoreId(storeId);
+    }
+
+
 }
