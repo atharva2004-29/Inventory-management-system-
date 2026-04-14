@@ -17,18 +17,27 @@
 <table border="1" cellpadding="6" cellspacing="0">
     <thead>
     <tr>
-        <th>Order ID</th><th>Store</th><th>Status</th><th>Date</th>
+        <th>Order ID</th>
+        <th>Store</th>
+        <th>Status</th>
+        <th>Date</th>
+        <th>Items</th>
     </tr>
     </thead>
     <tbody>
     <tr th:if="${#lists.isEmpty(orders)}">
-        <td colspan="4">No orders found.</td>
+        <td colspan="5">No orders found.</td>
     </tr>
     <tr th:each="order : ${orders}">
         <td th:text="${order.orderId}"></td>
         <td th:text="${order.store.storeName}"></td>
         <td th:text="${order.orderStatus}"></td>
         <td th:text="${order.orderTms}"></td>
+        <td>
+            <a th:href="@{/customer/orders/{id}/items(id=${order.orderId})}">
+                View Items
+            </a>
+        </td>
     </tr>
     </tbody>
 </table>

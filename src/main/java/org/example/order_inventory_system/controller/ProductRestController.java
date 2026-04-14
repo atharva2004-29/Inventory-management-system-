@@ -38,9 +38,9 @@ public class ProductRestController {
 
     // GET inventory for a product (which stores stock it and how many)
     @GetMapping("/{id}/inventory")
-    public ResponseEntity<Optional<Inventory>> getInventory(@PathVariable Integer id) {
+    public ResponseEntity<List<Inventory>> getInventory(@PathVariable Integer id) {
         productService.findById(id);
-        return ResponseEntity.ok(inventoryService.findByProductId(id));
+        return ResponseEntity.ok(inventoryService.findAllByProductId(id));
     }
 
     @PostMapping

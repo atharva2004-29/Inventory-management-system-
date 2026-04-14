@@ -21,22 +21,10 @@
 
 <h3>You are ordering:</h3>
 <table border="1" cellpadding="6" cellspacing="0">
-    <tr>
-        <td>Product</td>
-        <td th:text="${product.productName}"></td>
-    </tr>
-    <tr>
-        <td>Brand</td>
-        <td th:text="${product.brand}"></td>
-    </tr>
-    <tr>
-        <td>Size</td>
-        <td th:text="${product.size}"></td>
-    </tr>
-    <tr>
-        <td>Price</td>
-        <td th:text="${product.unitPrice}"></td>
-    </tr>
+    <tr><td>Product</td><td th:text="${product.productName}"></td></tr>
+    <tr><td>Brand</td><td th:text="${product.brand}"></td></tr>
+    <tr><td>Size</td><td th:text="${product.size}"></td></tr>
+    <tr><td>Price per unit</td><td th:text="${product.unitPrice}"></td></tr>
 </table>
 
 <br/>
@@ -51,11 +39,18 @@
             <td>
                 <select id="storeId" name="storeId">
                     <option value="">-- Select a Store --</option>
-                    <option th:each="store : ${stores}"
-                            th:value="${store.storeId}"
-                            th:text="${store.storeName}">
+                    <option th:each="inv : ${inventoryList}"
+                            th:value="${inv.store.storeId}"
+                            th:text="${inv.store.storeName} + ' (' + ${inv.productInventory} + ' in stock)'">
                     </option>
                 </select>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="quantity">Quantity</label></td>
+            <td>
+                <input type="number" id="quantity" name="quantity"
+                       value="1" min="1"/>
             </td>
         </tr>
         <tr>
