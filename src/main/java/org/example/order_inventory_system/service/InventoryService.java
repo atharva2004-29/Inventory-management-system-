@@ -1,6 +1,7 @@
 package org.example.order_inventory_system.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.order_inventory_system.exception.InventoryNotFoundException;
 import org.example.order_inventory_system.model.Inventory;
 import org.example.order_inventory_system.repository.InventoryRepository;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class InventoryService {
 
     public Inventory findById(Integer id) {
         return inventoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Inventory not found: " + id));
+                .orElseThrow(() -> new InventoryNotFoundException(id));
     }
 
     public Optional<Inventory> findByProductId(Integer productId) {
