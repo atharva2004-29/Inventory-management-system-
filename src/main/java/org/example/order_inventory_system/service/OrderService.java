@@ -1,6 +1,7 @@
 package org.example.order_inventory_system.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.order_inventory_system.exception.OrderNotFoundException;
 import org.example.order_inventory_system.model.Customer;
 import org.example.order_inventory_system.model.Inventory;
 import org.example.order_inventory_system.model.Order;
@@ -24,7 +25,7 @@ public class OrderService {
 
     public Order findById(Integer id) {
         return orderRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Order not found: " + id));
+                .orElseThrow(() -> new OrderNotFoundException(id));
     }
 
     public Order save(Order order) {
