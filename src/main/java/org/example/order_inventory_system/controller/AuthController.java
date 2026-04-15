@@ -97,4 +97,10 @@ public class AuthController {
             return "auth/register";
         }
     }
+    @GetMapping("/hash-test")
+    @ResponseBody
+    public String hashTest() {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.encode("admin123");
+    }
 }
