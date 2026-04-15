@@ -76,14 +76,13 @@ public class StoreRestController {
         return ResponseEntity.ok(storeService.save(store));
     }
 
-<<<<<<< HEAD
 
 
-=======
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         storeService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
->>>>>>> 29802aa9292d8f67a1a91172fa06f56635dfa448
+
 }
