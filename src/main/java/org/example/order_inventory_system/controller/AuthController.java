@@ -12,6 +12,7 @@ import org.example.order_inventory_system.service.UserService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -74,7 +75,12 @@ public class AuthController {
         model.addAttribute("user", new User());
         return "auth/register";
     }
-
+    @GetMapping("/hash-test")
+    @ResponseBody
+    public String hashTest() {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.encode("admin123");
+    }
     @PostMapping("/register")
     public String register(@Valid @ModelAttribute User user,
                            BindingResult result,
