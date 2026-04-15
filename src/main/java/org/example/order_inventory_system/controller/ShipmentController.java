@@ -2,6 +2,7 @@ package org.example.order_inventory_system.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.order_inventory_system.exception.ShipmentNotFoundException;
 import org.example.order_inventory_system.model.Shipment;
 import org.example.order_inventory_system.service.CustomerService;
 import org.example.order_inventory_system.service.ShipmentService;
@@ -66,16 +67,22 @@ public class ShipmentController {
             model.addAttribute("customers", customerService.findAll());
             return "shipments/form";
         }
-        shipmentService.save(shipment);
-        redirectAttributes.addFlashAttribute("successMessage", "Shipment saved successfully!");
-        return "redirect:/shipments";
+        try {
+            shipmentService.save(shipment);
+            redirectAttributes.addFlashAttribute("successMessage", "Shipment saved successfully!");
+        } catch (ShipmentNotFoundException ex) {
+            redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
+        } return "redirect:/shipments";
     }
 
     // Delete
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
-        shipmentService.deleteById(id);
-        redirectAttributes.addFlashAttribute("successMessage", "Shipment deleted successfully!");
-        return "redirect:/shipments";
+        try {
+            shipmentService.deleteById(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Shipment deleted successfully!");
+        } catch (ShipmentNotFoundException ex) {
+            redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
+        } return "redirect:/shipments";
     }
 }

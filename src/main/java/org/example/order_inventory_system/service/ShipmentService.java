@@ -1,6 +1,7 @@
 package org.example.order_inventory_system.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.order_inventory_system.exception.ShipmentNotFoundException;
 import org.example.order_inventory_system.model.Shipment;
 import org.example.order_inventory_system.repository.ShipmentRepository;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class ShipmentService {
 
     public Shipment findById(Integer id) {
         return shipmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Shipment not found: " + id));
+                .orElseThrow(() -> new ShipmentNotFoundException(id));
     }
 
     public Shipment save(Shipment shipment) {
@@ -37,19 +38,7 @@ public class ShipmentService {
         return shipmentRepository.findByCustomer_CustomerId(customerId);
     }
 
-//    --------------------------------------------------------------------------------------------
-
-    // Customer → Shipments
-    public List<Shipment> getByCustomerId(Integer customerId) {
-        return shipmentRepository.findByCustomerCustomerId(customerId);
+    public List<Shipment> findByStoreId(Integer storeId) {
+        return shipmentRepository.findByStore_StoreId(storeId);
     }
-
-    // Store → Shipments
-    public List<Shipment> getByStoreId(Integer storeId) {
-        return shipmentRepository.findByStoreStoreId(storeId);
-    }
-
-
-
-
 }

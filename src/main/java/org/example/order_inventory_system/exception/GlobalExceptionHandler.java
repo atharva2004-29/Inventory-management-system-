@@ -1,6 +1,4 @@
 package org.example.order_inventory_system.exception;
-
-
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;

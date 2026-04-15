@@ -53,16 +53,16 @@ public class ShipmentRestController {
         return ResponseEntity.noContent().build();
     }
 
-    // ✅ Get all shipments of a customer
-    @GetMapping("/customer/{customerId}")
-    public List<Shipment> getByCustomer(@PathVariable Integer customerId) {
-        return shipmentService.getByCustomerId(customerId);
-    }
-
-    // ✅ Get all shipments from a store
-    @GetMapping("/store/{storeId}")
-    public List<Shipment> getByStore(@PathVariable Integer storeId) {
-        return shipmentService.getByStoreId(storeId);
-    }
+//    // ✅ Get all shipments of a customer
+//    @GetMapping("/customer/{customerId}")
+//    public List<Shipment> getByCustomer(@PathVariable Integer customerId) {
+//        return shipmentService.getByCustomerId(customerId);
+//    }
+//
+//    // ✅ Get all shipments from a store
+//    @GetMapping("/store/{storeId}")
+//    public List<Shipment> getByStore(@PathVariable Integer storeId) {
+//        return shipmentService.getByStoreId(storeId);
+//    }
 
 }
