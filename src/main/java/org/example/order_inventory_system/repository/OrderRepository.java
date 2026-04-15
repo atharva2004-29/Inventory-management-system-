@@ -9,11 +9,9 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Order, Integer> {
     List<Order> findByCustomer_CustomerId(Integer customerId);
     List<Order> findByOrderStatus(String status);
-<<<<<<< HEAD
+
 
     List<Order> findByStore_StoreId(Integer storeId);
 
-=======
-    List<Order> findByStore_StoreId(Integer storeId);
->>>>>>> 29802aa9292d8f67a1a91172fa06f56635dfa448
+
 }

@@ -84,7 +84,6 @@ class CustomerServiceTest {
 
         verify(customerRepository, times(1)).deleteById(1);
     }
-
     @Test
     void searchByName_ShouldReturnMatchingCustomers() {
         when(customerRepository.findByFullNameContainingIgnoreCase("john"))
