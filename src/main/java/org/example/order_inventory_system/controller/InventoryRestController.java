@@ -31,11 +31,8 @@ public class InventoryRestController {
 
     // GET by product ID
     @GetMapping("/product/{productId}")
-    public ResponseEntity<Inventory> getByProductId(@PathVariable Integer productId) {
-        return ResponseEntity.ok(
-            inventoryService.findByProductId(productId)
-                .orElseThrow(() -> new RuntimeException("Inventory not found for product: " + productId))
-        );
+    public ResponseEntity<List<Inventory>> getByProductId(@PathVariable Integer productId) {
+        return ResponseEntity.ok(inventoryService.findAllByProductId(productId));
     }
 
     // GET by store ID

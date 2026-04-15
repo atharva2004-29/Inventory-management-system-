@@ -22,8 +22,8 @@ public class InventoryService {
                 .orElseThrow(() -> new RuntimeException("Inventory not found: " + id));
     }
 
-    public Optional<Inventory> findByProductId(Integer productId) {
-        return inventoryRepository.findByProduct_ProductId(productId);
+    public List<Inventory> findAllByProductId(Integer productId) {
+        return inventoryRepository.findAllByProduct_ProductId(productId);
     }
 
     public List<Inventory> findByStoreId(Integer storeId) {
