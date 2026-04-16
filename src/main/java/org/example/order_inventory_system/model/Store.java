@@ -18,12 +18,11 @@ public class Store {
     @NotBlank(message = "Store name is required")
     @Column(name = "store_name", nullable = false, unique = true)
     private String storeName;
+    @Column(name = "physical_address")
+    private String physicalAddress;
 
     @Column(name = "web_address")
     private String webAddress;
-
-    @Column(name = "physical_address")
-    private String physicalAddress;
 
     @Column(name = "latitude", precision = 9, scale = 6)
     private BigDecimal latitude;

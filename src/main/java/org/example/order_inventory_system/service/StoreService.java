@@ -17,18 +17,18 @@ public class StoreService {
         return storeRepository.findAll();
     }
 
+    public Store save(Store store) {
+        return storeRepository.save(store);
+    }
+
     public Store findById(Integer id) {
         return storeRepository.findById(id)
                 .orElseThrow(() -> new StoreNotFoundException(id));
     }
 
-    public Store save(Store store) {
-        return storeRepository.save(store);
-    }
 
-    public void deleteById(Integer id) {
-        storeRepository.deleteById(id);
-    }
+
+
 
     public List<Store> searchByName(String name) {
         return storeRepository.findByStoreNameContainingIgnoreCase(name);
