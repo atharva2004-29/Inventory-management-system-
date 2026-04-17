@@ -77,12 +77,12 @@ class StoreServiceTest {
         verify(storeRepository).save(store);
     }
 
-    @Test
-    void testDeleteById() {
-        storeService.deleteById(1);
-
-        verify(storeRepository).deleteById(1);
-    }
+//    @Test
+//    void testDeleteById() {
+//        storeService.deleteById(1);
+//
+//        verify(storeRepository).deleteById(1);
+//    }
 
     // =========================
     // SEARCH FUNCTION

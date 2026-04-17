@@ -61,11 +61,11 @@ public class StoreController {
         return "redirect:/stores";
     }
 
-    // Delete
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
-        storeService.deleteById(id);
-        redirectAttributes.addFlashAttribute("successMessage", "Store deleted successfully!");
-        return "redirect:/stores";
-    }
+//    // Delete
+//    @GetMapping("/delete/{id}")
+//    public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+//
+//        redirectAttributes.addFlashAttribute("successMessage", "Store deleted successfully!");
+//        return "redirect:/stores";
+//    }
 }
