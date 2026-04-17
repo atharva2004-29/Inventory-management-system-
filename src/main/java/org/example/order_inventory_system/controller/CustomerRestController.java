@@ -1,6 +1,5 @@
 package org.example.order_inventory_system.controller;
 
-import lombok.RequiredArgsConstructor;
 import org.example.order_inventory_system.model.Customer;
 import org.example.order_inventory_system.model.Order;
 import org.example.order_inventory_system.model.Shipment;
@@ -15,12 +14,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/customers")
-@RequiredArgsConstructor
 public class CustomerRestController {
 
     private final CustomerService customerService;
     private final OrderService orderService;
     private final ShipmentService shipmentService;
+
+    public CustomerRestController(CustomerService customerService, OrderService orderService, ShipmentService shipmentService) {
+        this.customerService = customerService;
+        this.orderService = orderService;
+        this.shipmentService = shipmentService;
+    }
 
     // GET all customers
     @GetMapping

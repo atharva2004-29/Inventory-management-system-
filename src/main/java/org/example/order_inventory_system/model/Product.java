@@ -2,10 +2,8 @@ package org.example.order_inventory_system.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.Data;
 import java.math.BigDecimal;
 
-@Data
 @Entity
 @Table(name = "products")
 public class Product {
@@ -41,4 +39,29 @@ public class Product {
     @Max(value = 5, message = "Rating must be at most 5")
     @Column(name = "rating", nullable = false)
     private Integer rating;
+
+    // Manual No-Args Constructor
+    public Product() {}
+
+    // Getters and Setters
+    public Integer getProductId() { return productId; }
+    public void setProductId(Integer productId) { this.productId = productId; }
+
+    public String getProductName() { return productName; }
+    public void setProductName(String productName) { this.productName = productName; }
+
+    public BigDecimal getUnitPrice() { return unitPrice; }
+    public void setUnitPrice(BigDecimal unitPrice) { this.unitPrice = unitPrice; }
+
+    public String getColour() { return colour; }
+    public void setColour(String colour) { this.colour = colour; }
+
+    public String getBrand() { return brand; }
+    public void setBrand(String brand) { this.brand = brand; }
+
+    public String getSize() { return size; }
+    public void setSize(String size) { this.size = size; }
+
+    public Integer getRating() { return rating; }
+    public void setRating(Integer rating) { this.rating = rating; }
 }

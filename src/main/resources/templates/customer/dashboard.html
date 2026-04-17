@@ -1,23 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="UTF-8"/><title>Dashboard</title></head>
+<head th:replace="~{layout :: common-head('Customer Dashboard')}"></head>
 <body>
-<h2>Welcome, <span th:text="${customer.fullName}"></span>!</h2>
-<nav>
-    <a href="/customer/dashboard">Dashboard</a> |
-    <a href="/customer/products">Browse Products</a> |
-    <a href="/customer/orders">My Orders</a> |
-    <a href="/customer/shipments">My Shipments</a> |
-    <form action="/logout" method="post" style="display:inline">
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-        <button type="submit">Logout</button>
-    </form>
-</nav>
-<hr/>
-<ul>
-    <li><a href="/customer/products">Browse Products</a></li>
-    <li><a href="/customer/orders">View My Orders</a></li>
-    <li><a href="/customer/shipments">Track My Shipments</a></li>
-</ul>
+
+<div class="container">
+    <header>
+        <h1>Welcome, <span th:text="${customer.fullName}"></span>!</h1>
+    </header>
+
+    <nav th:replace="~{layout :: customer-nav}"></nav>
+
+    <div class="form-card" style="max-width: 100%; text-align: center;">
+        <h2>Quick Actions</h2>
+        <p style="margin-bottom: 2rem; color: #7f8c8d;">Manage your orders, browse products, and track shipments from your personal dashboard.</p>
+        <div class="actions" style="justify-content: center; gap: 1.5rem;">
+            <a th:href="@{/customer/products}" class="btn btn-primary">Browse Products</a>
+            <a th:href="@{/customer/orders}" class="btn btn-primary">My Orders</a>
+            <a th:href="@{/customer/shipments}" class="btn btn-primary">Track Shipments</a>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p style="text-align: center; margin-top: 2rem; color: #7f8c8d;">&copy; 2024 Order Inventory Management System. All rights reserved.</p>
+</footer>
+
 </body>
 </html>

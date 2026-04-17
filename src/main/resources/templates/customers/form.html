@@ -1,60 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <title th:text="${formTitle}">Customer Form</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: common-head(${formTitle})}"></head>
 <body>
 
-<h2 th:text="${formTitle}">Customer Form</h2>
+<div class="container">
+    <h2 th:text="${formTitle}">Customer Form</h2>
 
-<nav>
-  <a href="/customers">Customers</a> |
-  <a href="/products">Products</a> |
-  <a href="/stores">Stores</a> |
-  <a href="/orders">Orders</a> |
-  <a href="/inventory">Inventory</a> |
-  <a href="/shipments">Shipments</a>
-</nav>
+    <nav th:replace="~{layout :: admin-nav}"></nav>
 
-<hr/>
+    <div class="form-card">
+        <form th:action="@{/customers/save}" th:object="${customer}" method="post">
+            <input type="hidden" th:field="*{customerId}"/>
 
-<a href="/customers">Back to List</a>
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" th:field="*{fullName}" placeholder="Enter full name" required/>
+                <span th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}" class="alert-error"></span>
+            </div>
 
-<br/><br/>
+            <div class="form-group">
+                <label for="emailAddress">Email Address</label>
+                <input type="email" id="emailAddress" th:field="*{emailAddress}" placeholder="Enter email address" required/>
+                <span th:if="${#fields.hasErrors('emailAddress')}" th:errors="*{emailAddress}" class="alert-error"></span>
+            </div>
 
-<form th:action="@{/customers/save}" th:object="${customer}" method="post">
+            <div class="actions">
+                <button type="submit" class="btn btn-primary">Save Customer</button>
+                <a th:href="@{/customers}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
 
-  <input type="hidden" th:field="*{customerId}"/>
-
-  <table>
-    <tr>
-      <td><label for="fullName">Full Name</label></td>
-      <td>
-        <input type="text" id="fullName" th:field="*{fullName}"
-               placeholder="Enter full name"/>
-        <span th:if="${#fields.hasErrors('fullName')}"
-              th:errors="*{fullName}" style="color:red"></span>
-      </td>
-    </tr>
-    <tr>
-      <td><label for="emailAddress">Email Address</label></td>
-      <td>
-        <input type="email" id="emailAddress" th:field="*{emailAddress}"
-               placeholder="Enter email address"/>
-        <span th:if="${#fields.hasErrors('emailAddress')}"
-              th:errors="*{emailAddress}" style="color:red"></span>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2">
-        <button type="submit">Save Customer</button>
-        <a href="/customers">Cancel</a>
-      </td>
-    </tr>
-  </table>
-
-</form>
+<footer>
+    <p style="text-align: center; margin-top: 2rem; color: #7f8c8d;">&copy; 2024 Order Inventory Management System. All rights reserved.</p>
+</footer>
 
 </body>
 </html>

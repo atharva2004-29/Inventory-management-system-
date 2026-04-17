@@ -1,6 +1,5 @@
 package org.example.order_inventory_system.service;
 
-import lombok.RequiredArgsConstructor;
 import org.example.order_inventory_system.model.User;
 import org.example.order_inventory_system.model.Customer;
 import org.example.order_inventory_system.repository.CustomerRepository;
@@ -15,11 +14,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final CustomerRepository customerRepository;
+
+    public UserDetailsServiceImpl(UserRepository userRepository, CustomerRepository customerRepository) {
+        this.userRepository = userRepository;
+        this.customerRepository = customerRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

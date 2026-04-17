@@ -1,7 +1,6 @@
 package org.example.order_inventory_system.controller;
 
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.example.order_inventory_system.model.Inventory;
 import org.example.order_inventory_system.model.Product;
 import org.example.order_inventory_system.service.InventoryService;
@@ -15,11 +14,15 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/products")
-@RequiredArgsConstructor
 public class ProductRestController {
 
     private final ProductService productService;
     private final InventoryService inventoryService;
+
+    public ProductRestController(ProductService productService, InventoryService inventoryService) {
+        this.productService = productService;
+        this.inventoryService = inventoryService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Product>> getAll() {

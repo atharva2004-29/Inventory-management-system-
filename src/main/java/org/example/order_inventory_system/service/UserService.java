@@ -1,6 +1,5 @@
 package org.example.order_inventory_system.service;
 
-import lombok.RequiredArgsConstructor;
 import org.example.order_inventory_system.model.Customer;
 import org.example.order_inventory_system.model.Role;
 import org.example.order_inventory_system.model.User;
@@ -10,12 +9,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
     private final CustomerRepository customerRepository;
     private final PasswordEncoder passwordEncoder;
+
+    public UserService(UserRepository userRepository, CustomerRepository customerRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.customerRepository = customerRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public void registerCustomer(User user) {
         if (userRepository.existsByEmail(user.getEmail())) {
