@@ -1,6 +1,7 @@
 package org.example.order_inventory_system.config;
 
 import lombok.RequiredArgsConstructor;
+import org.example.order_inventory_system.exception.OrderNotFoundException;
 import org.example.order_inventory_system.model.Order;
 import org.example.order_inventory_system.repository.OrderRepository;
 import org.springframework.core.convert.converter.Converter;
@@ -15,6 +16,12 @@ public class OrderConverter implements Converter<String, Order> {
     @Override
     public Order convert(String id) {
         if (id == null || id.isBlank()) return null;
-        return orderRepository.findById(Integer.parseInt(id)).orElse(null);
+        try {
+            Integer orderId = Integer.parseInt(id);
+            return orderRepository.findById(orderId)
+                    .orElseThrow(() -> new OrderNotFoundException(orderId));
+        } catch (NumberFormatException e) {
+            throw new OrderNotFoundException("Invalid order ID format: " + id);
+        }
     }
 }
