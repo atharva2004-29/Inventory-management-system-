@@ -1,63 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <title th:text="${formTitle}">Product Form</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: common-head(${formTitle})}"></head>
 <body>
 
-<h2 th:text="${formTitle}">Product Form</h2>
+<div class="container">
+    <h2 th:text="${formTitle}">Product Form</h2>
 
-<nav>
-    <a href="/customers">Customers</a> |
-    <a href="/products">Products</a> |
-    <a href="/stores">Stores</a> |
-    <a href="/orders">Orders</a> |
-    <a href="/inventory">Inventory</a> |
-    <a href="/shipments">Shipments</a>
-</nav>
+    <nav th:replace="~{layout :: admin-nav}"></nav>
 
-<hr/>
+    <div class="form-card">
+        <form th:action="@{/products/save}" th:object="${product}" method="post">
+            <input type="hidden" th:field="*{productId}"/>
 
-<a href="/products">Back to List</a>
+            <div class="form-group">
+                <label for="productName">Product Name</label>
+                <input type="text" id="productName" th:field="*{productName}" placeholder="Enter product name" required/>
+                <span th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}" class="alert-error"></span>
+            </div>
 
-<br/><br/>
+            <div class="form-group">
+                <label for="brand">Brand</label>
+                <input type="text" id="brand" th:field="*{brand}" placeholder="Enter brand" required/>
+                <span th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}" class="alert-error"></span>
+            </div>
 
-<form th:action="@{/products/save}" th:object="${product}" method="post">
+            <div class="form-group">
+                <label for="colour">Colour</label>
+                <input type="text" id="colour" th:field="*{colour}" placeholder="Enter colour"/>
+                <span th:if="${#fields.hasErrors('colour')}" th:errors="*{colour}" class="alert-error"></span>
+            </div>
 
-    <input type="hidden" th:field="*{productId}"/>
-
-    <table>
-        <tr>
-            <td><label for="productName">Product Name</label></td>
-            <td>
-                <input type="text" id="productName" th:field="*{productName}"
-                       placeholder="Enter product name"/>
-                <span th:if="${#fields.hasErrors('productName')}"
-                      th:errors="*{productName}" style="color:red"></span>
-            </td>
-        </tr>
-        <tr>
-            <td><label for="brand">Brand</label></td>
-            <td>
-                <input type="text" id="brand" th:field="*{brand}"
-                       placeholder="Enter brand"/>
-                <span th:if="${#fields.hasErrors('brand')}"
-                      th:errors="*{brand}" style="color:red"></span>
-            </td>
-        </tr>
-        <tr>
-            <td><label for="colour">Colour</label></td>
-            <td>
-                <input type="text" id="colour" th:field="*{colour}"
-                       placeholder="Enter colour"/>
-                <span th:if="${#fields.hasErrors('colour')}"
-                      th:errors="*{colour}" style="color:red"></span>
-            </td>
-        </tr>
-        <tr>
-            <td><label for="size">Size</label></td>
-            <td>
+            <div class="form-group">
+                <label for="size">Size</label>
                 <select id="size" th:field="*{size}">
                     <option value="">-- Select Size --</option>
                     <option value="S">S</option>
@@ -66,22 +40,17 @@
                     <option value="XL">XL</option>
                     <option value="XXL">XXL</option>
                 </select>
-                <span th:if="${#fields.hasErrors('size')}"
-                      th:errors="*{size}" style="color:red"></span>
-            </td>
-        </tr>
-        <tr>
-            <td><label for="unitPrice">Unit Price</label></td>
-            <td>
-                <input type="number" id="unitPrice" th:field="*{unitPrice}"
-                       placeholder="Enter unit price" step="0.01" min="0"/>
-                <span th:if="${#fields.hasErrors('unitPrice')}"
-                      th:errors="*{unitPrice}" style="color:red"></span>
-            </td>
-        </tr>
-        <tr>
-            <td><label for="rating">Rating (1-5)</label></td>
-            <td>
+                <span th:if="${#fields.hasErrors('size')}" th:errors="*{size}" class="alert-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="unitPrice">Unit Price</label>
+                <input type="number" id="unitPrice" th:field="*{unitPrice}" placeholder="Enter unit price" step="0.01" min="0" required/>
+                <span th:if="${#fields.hasErrors('unitPrice')}" th:errors="*{unitPrice}" class="alert-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="rating">Rating (1-5)</label>
                 <select id="rating" th:field="*{rating}">
                     <option value="">-- Select Rating --</option>
                     <option value="1">1</option>
@@ -90,19 +59,20 @@
                     <option value="4">4</option>
                     <option value="5">5</option>
                 </select>
-                <span th:if="${#fields.hasErrors('rating')}"
-                      th:errors="*{rating}" style="color:red"></span>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <button type="submit">Save Product</button>
-                <a href="/products">Cancel</a>
-            </td>
-        </tr>
-    </table>
+                <span th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}" class="alert-error"></span>
+            </div>
 
-</form>
+            <div class="actions">
+                <button type="submit" class="btn btn-primary">Save Product</button>
+                <a th:href="@{/products}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer>
+    <p style="text-align: center; margin-top: 2rem; color: #7f8c8d;">&copy; 2024 Order Inventory Management System. All rights reserved.</p>
+</footer>
 
 </body>
 </html>

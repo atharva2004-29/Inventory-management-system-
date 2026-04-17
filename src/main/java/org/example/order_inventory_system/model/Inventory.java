@@ -3,9 +3,7 @@ package org.example.order_inventory_system.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
 
-@Data
 @Entity
 @Table(name = "inventory")
 public class Inventory {
@@ -29,4 +27,20 @@ public class Inventory {
     @Min(value = 0, message = "Quantity cannot be negative")
     @Column(name = "product_inventory", nullable = false)
     private Integer productInventory;
+
+    // Manual No-Args Constructor
+    public Inventory() {}
+
+    // Getters and Setters
+    public Integer getInventoryId() { return inventoryId; }
+    public void setInventoryId(Integer inventoryId) { this.inventoryId = inventoryId; }
+
+    public Product getProduct() { return product; }
+    public void setProduct(Product product) { this.product = product; }
+
+    public Store getStore() { return store; }
+    public void setStore(Store store) { this.store = store; }
+
+    public Integer getProductInventory() { return productInventory; }
+    public void setProductInventory(Integer productInventory) { this.productInventory = productInventory; }
 }

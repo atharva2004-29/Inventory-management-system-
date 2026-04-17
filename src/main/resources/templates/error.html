@@ -1,28 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Error</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Error - Order Inventory Management System</title>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}"/>
 </head>
-<body>
+<body style="display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #f8f9fa;">
 
-<h2>Error</h2>
+<div class="container" style="max-width: 500px;">
+    <div class="form-card" style="text-align: center; padding: 3rem;">
+        <div style="font-size: 4rem; margin-bottom: 1rem;">⚠️</div>
+        <h2 style="color: #e74c3c; margin-bottom: 1rem;">Oops! Something went wrong</h2>
+        <p th:text="${errorMessage}" style="color: #7f8c8d; margin-bottom: 2rem;">An unexpected error occurred.</p>
 
-<nav>
-    <a href="/customers">Customers</a> |
-    <a href="/products">Products</a> |
-    <a href="/stores">Stores</a> |
-    <a href="/orders">Orders</a> |
-    <a href="/inventory">Inventory</a> |
-    <a href="/shipments">Shipments</a>
-</nav>
+        <div class="actions" style="justify-content: center; gap: 1rem;">
+            <a href="javascript:history.back()" class="btn btn-primary">Go Back</a>
+            <a th:href="@{/}" class="btn btn-secondary">Home Page</a>
+        </div>
+    </div>
+</div>
 
-<hr/>
-
-<p th:text="${errorMessage}">An unexpected error occurred.</p>
-
-<br/>
-<a href="javascript:history.back()">Go Back</a>
+<footer>
+    <p style="text-align: center; margin-top: 2rem; color: #7f8c8d;">&copy; 2024 Order Inventory Management System. All rights reserved.</p>
+</footer>
 
 </body>
 </html>

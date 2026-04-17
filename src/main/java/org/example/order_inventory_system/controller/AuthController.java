@@ -3,7 +3,6 @@ package org.example.order_inventory_system.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.example.order_inventory_system.model.Customer;
 import org.example.order_inventory_system.model.User;
 import org.example.order_inventory_system.repository.CustomerRepository;
@@ -23,12 +22,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 @Controller
-@RequiredArgsConstructor
 public class AuthController {
 
     private final UserService userService;
     private final UserRepository userRepository;
     private final CustomerRepository customerRepository;
+
+    public AuthController(UserService userService, UserRepository userRepository, CustomerRepository customerRepository) {
+        this.userService = userService;
+        this.userRepository = userRepository;
+        this.customerRepository = customerRepository;
+    }
 
     @GetMapping("/login")
     public String loginPage(@RequestParam(required = false) String error,

@@ -1,6 +1,5 @@
 package org.example.order_inventory_system.controller;
 
-import lombok.RequiredArgsConstructor;
 import org.example.order_inventory_system.model.Customer;
 import org.example.order_inventory_system.repository.CustomerRepository;
 import org.example.order_inventory_system.service.*;
@@ -19,7 +18,6 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/customer")
-@RequiredArgsConstructor
 public class CustomerPortalController {
 
     private final ProductService productService;
@@ -28,7 +26,17 @@ public class CustomerPortalController {
     private final CustomerRepository customerRepository;
     private final StoreService storeService;
     private final OrderItemService orderItemService;
-    private final InventoryService inventoryService; // ADD THIS
+    private final InventoryService inventoryService;
+
+    public CustomerPortalController(ProductService productService, OrderService orderService, ShipmentService shipmentService, CustomerRepository customerRepository, StoreService storeService, OrderItemService orderItemService, InventoryService inventoryService) {
+        this.productService = productService;
+        this.orderService = orderService;
+        this.shipmentService = shipmentService;
+        this.customerRepository = customerRepository;
+        this.storeService = storeService;
+        this.orderItemService = orderItemService;
+        this.inventoryService = inventoryService;
+    }
 // ADD THIS INJECTION
 // ADD THIS INJECTION
 

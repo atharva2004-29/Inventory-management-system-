@@ -3,10 +3,8 @@ package org.example.order_inventory_system.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
 import java.math.BigDecimal;
 
-@Data
 @Entity
 @Table(name = "order_items")
 public class OrderItem {
@@ -40,4 +38,29 @@ public class OrderItem {
     @Min(1)
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
+
+    // Manual No-Args Constructor
+    public OrderItem() {}
+
+    // Getters and Setters
+    public Integer getOrderId() { return orderId; }
+    public void setOrderId(Integer orderId) { this.orderId = orderId; }
+
+    public Integer getLineItemId() { return lineItemId; }
+    public void setLineItemId(Integer lineItemId) { this.lineItemId = lineItemId; }
+
+    public Product getProduct() { return product; }
+    public void setProduct(Product product) { this.product = product; }
+
+    public Order getOrder() { return order; }
+    public void setOrder(Order order) { this.order = order; }
+
+    public Shipment getShipment() { return shipment; }
+    public void setShipment(Shipment shipment) { this.shipment = shipment; }
+
+    public BigDecimal getUnitPrice() { return unitPrice; }
+    public void setUnitPrice(BigDecimal unitPrice) { this.unitPrice = unitPrice; }
+
+    public Integer getQuantity() { return quantity; }
+    public void setQuantity(Integer quantity) { this.quantity = quantity; }
 }

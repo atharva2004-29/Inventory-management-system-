@@ -1,6 +1,5 @@
 package org.example.order_inventory_system.service;
 
-import lombok.RequiredArgsConstructor;
 import org.example.order_inventory_system.model.*;
 import org.example.order_inventory_system.repository.InventoryRepository;
 import org.example.order_inventory_system.repository.OrderItemRepository;
@@ -9,12 +8,17 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class OrderService {
 
     private final OrderRepository orderRepository;
     private final InventoryRepository inventoryRepository;
     private final OrderItemRepository orderItemRepository;
+
+    public OrderService(OrderRepository orderRepository, InventoryRepository inventoryRepository, OrderItemRepository orderItemRepository) {
+        this.orderRepository = orderRepository;
+        this.inventoryRepository = inventoryRepository;
+        this.orderItemRepository = orderItemRepository;
+    }
 
 
 

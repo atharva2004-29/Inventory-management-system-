@@ -1,7 +1,6 @@
 package org.example.order_inventory_system.controller;
 
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.example.order_inventory_system.model.Inventory;
 import org.example.order_inventory_system.service.InventoryService;
 import org.springframework.http.HttpStatus;
@@ -12,10 +11,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/inventory")
-@RequiredArgsConstructor
 public class InventoryRestController {
 
     private final InventoryService inventoryService;
+
+    public InventoryRestController(InventoryService inventoryService) {
+        this.inventoryService = inventoryService;
+    }
 
     // GET all inventory
     @GetMapping
