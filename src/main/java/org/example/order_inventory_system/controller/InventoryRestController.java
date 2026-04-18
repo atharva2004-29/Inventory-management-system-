@@ -96,4 +96,16 @@ public class InventoryRestController {
         inventoryService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    // GET count
+    @GetMapping("/count")
+    public ResponseEntity<Long> getCount() {
+        return ResponseEntity.ok((long) inventoryService.findAll().size());
+    }
+
+    // GET export (mock)
+    @GetMapping("/export")
+    public ResponseEntity<String> exportCsv() {
+        return ResponseEntity.ok("InventoryID,Store,Product,Quantity\n1,Main Store,Laptop,50\n2,Sub Store,Mouse,100");
+    }
 }

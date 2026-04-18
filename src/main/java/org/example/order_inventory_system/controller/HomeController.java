@@ -75,30 +75,35 @@ public class HomeController {
  
     private List<Map<String, String>> generateMockApis(String service, String uiBase) {
         String base = "/api/" + service.toLowerCase();
+        String viewBase = "/view/api/" + service.toLowerCase();
+        
+        if (service.equals("Inventory")) {
+             base = "/api/inventory";
+             viewBase = "/view/api/inventory";
+        } else if (!base.endsWith("s")) {
+             base = "/api/" + service.toLowerCase() + "s";
+             viewBase = "/view/api/" + service.toLowerCase() + "s";
+        }
+        
         List<Map<String, String>> apis = new ArrayList<>();
         
-        apis.add(createApi("GET", base, "List all " + service + "s", uiBase));
-        apis.add(createApi("GET", base + "/{id}", "Get " + service + " details by ID", null));
-        apis.add(createApi("POST", base, "Create a new " + service, uiBase + "/new"));
-        apis.add(createApi("PUT", base + "/{id}", "Update existing " + service, null));
-        apis.add(createApi("DELETE", base + "/{id}", "Delete a " + service, null));
-        apis.add(createApi("GET", base + "/search", "Search " + service + "s with parameters", uiBase));
-        apis.add(createApi("GET", base + "/count", "Get total count of " + service + "s", null));
-        apis.add(createApi("PATCH", base + "/{id}/status", "Update " + service + " status", null));
-        apis.add(createApi("GET", base + "/recent", "List recently modified " + service + "s", uiBase));
-        apis.add(createApi("GET", base + "/export", "Export " + service + " data to CSV/Excel", null));
+        apis.add(createApi("GET", base, "List all " + service + "s", viewBase, null));
+        apis.add(createApi("GET", base + "/{id}", "Get " + service + " details (Dynamic ID)", null, viewBase));
+        apis.add(createApi("POST", base, "Create a new " + service, uiBase + "/new", null));
+        apis.add(createApi("PUT", base + "/{id}", "Update existing " + service + " (Mock Link)", uiBase, null));
+        apis.add(createApi("GET", base + "/search?name=test", "Search " + service + "s", viewBase + "/search", null));
+        apis.add(createApi("PATCH", base + "/{id}/status", "Update " + service + " status", uiBase, null));
         
         return apis;
     }
  
-    private Map<String, String> createApi(String method, String uri, String desc, String uiLink) {
+    private Map<String, String> createApi(String method, String uri, String desc, String uiLink, String uiLinkBase) {
         Map<String, String> api = new HashMap<>();
         api.put("method", method);
         api.put("uri", uri);
         api.put("description", desc);
-        if (uiLink != null) {
-            api.put("uiLink", uiLink);
-        }
+        if (uiLink != null) api.put("uiLink", uiLink);
+        if (uiLinkBase != null) api.put("uiLinkBase", uiLinkBase);
         return api;
     }
 }

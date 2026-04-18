@@ -80,4 +80,16 @@ public class CustomerRestController {
         customerService.deleteById(id);
         return ResponseEntity.ok("Customer deleted successfully");
     }
+
+    // GET count
+    @GetMapping("/count")
+    public ResponseEntity<Long> getCount() {
+        return ResponseEntity.ok((long) customerService.findAll().size());
+    }
+
+    // GET export (mock)
+    @GetMapping("/export")
+    public ResponseEntity<String> exportCsv() {
+        return ResponseEntity.ok("Name,Email\nJohn Doe,john@example.com\nJane Smith,jane@example.com");
+    }
 }

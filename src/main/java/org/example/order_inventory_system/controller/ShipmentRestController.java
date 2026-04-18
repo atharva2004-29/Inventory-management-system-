@@ -59,4 +59,16 @@ public class ShipmentRestController {
         shipmentService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    // GET count
+    @GetMapping("/count")
+    public ResponseEntity<Long> getCount() {
+        return ResponseEntity.ok((long) shipmentService.findAll().size());
+    }
+
+    // GET export (mock)
+    @GetMapping("/export")
+    public ResponseEntity<String> exportCsv() {
+        return ResponseEntity.ok("ShipmentID,Origin,Status\n1,Warehouse A,In Transit\n2,Warehouse B,Delivered");
+    }
 }

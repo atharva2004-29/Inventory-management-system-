@@ -103,7 +103,34 @@
         .back-link:hover {
             color: #1e293b;
         }
+        .action-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .id-input {
+            width: 60px;
+            padding: 0.4rem;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .id-input:focus {
+            border-color: #3498db;
+        }
     </style>
+    <script th:inline="javascript">
+        function tryWithId(button) {
+            const baseUrl = button.getAttribute('data-base-base-url');
+            const rowId = button.getAttribute('data-row-id');
+            const idInput = document.getElementById('id-input-' + rowId);
+            const id = idInput ? idInput.value : '1';
+            window.location.href = baseUrl + '/' + id;
+        }
+    </script>
 </head>
 <body>
 
@@ -140,8 +167,16 @@
                         <td><span th:class="'method ' + ${api['method']}" th:text="${api['method']}">GET</span></td>
                         <td th:text="${api['uri']}" style="font-family: monospace; color: #475569;">/api/endpoint</td>
                         <td th:text="${api['description']}">Description</td>
-                        <td>
+                        <td class="action-cell">
                             <a th:if="${api['uiLink'] != null}" th:href="${api['uiLink']}" class="btn-try">Try it &rarr;</a>
+                            
+                            <th:block th:if="${api['uiLinkBase'] != null}">
+                                <input type="number" class="id-input" th:id="'id-input-' + ${apiStat.index}" value="1" min="1">
+                                <a href="javascript:void(0)" class="btn-try" 
+                                   th:data-base-base-url="${api['uiLinkBase']}" 
+                                   th:data-row-id="${apiStat.index}"
+                                   onclick="tryWithId(this)">Try it &rarr;</a>
+                            </th:block>
                         </td>
                     </tr>
                 </tbody>

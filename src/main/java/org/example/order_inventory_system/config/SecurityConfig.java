@@ -34,7 +34,7 @@ public class SecurityConfig {
  
     @Bean
     public org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/member/**", "/css/**", "/js/**", "/images/**", "/error", "/favicon.ico");
+        return (web) -> web.ignoring().requestMatchers("/member/**", "/view/api/**", "/css/**", "/js/**", "/images/**", "/error", "/favicon.ico");
     }
  
     @Bean

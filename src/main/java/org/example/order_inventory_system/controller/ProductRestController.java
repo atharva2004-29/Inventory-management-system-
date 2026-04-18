@@ -65,4 +65,16 @@ public class ProductRestController {
         productService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    // GET count
+    @GetMapping("/count")
+    public ResponseEntity<Long> getCount() {
+        return ResponseEntity.ok((long) productService.findAll().size());
+    }
+
+    // GET export (mock)
+    @GetMapping("/export")
+    public ResponseEntity<String> exportCsv() {
+        return ResponseEntity.ok("Product,Price\nLaptop,1200\nMouse,25");
+    }
 }

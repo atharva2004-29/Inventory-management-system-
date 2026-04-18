@@ -86,4 +86,16 @@ public class StoreRestController {
         storeService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    // GET count
+    @GetMapping("/count")
+    public ResponseEntity<Long> getCount() {
+        return ResponseEntity.ok((long) storeService.findAll().size());
+    }
+
+    // GET export (mock)
+    @GetMapping("/export")
+    public ResponseEntity<String> exportCsv() {
+        return ResponseEntity.ok("Store,Location\nMain Store,New York\nSub Store,Chicago");
+    }
 }

@@ -68,4 +68,16 @@ public class OrderRestController {
         orderService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    // GET count
+    @GetMapping("/count")
+    public ResponseEntity<Long> getCount() {
+        return ResponseEntity.ok((long) orderService.findAll().size());
+    }
+
+    // GET export (mock)
+    @GetMapping("/export")
+    public ResponseEntity<String> exportCsv() {
+        return ResponseEntity.ok("OrderID,Customer,Status\n1,John Doe,Shipped\n2,Jane Smith,Pending");
+    }
 }
