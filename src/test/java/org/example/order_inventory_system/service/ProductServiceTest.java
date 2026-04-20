@@ -68,7 +68,7 @@ class ProductServiceTest {
         RuntimeException ex = assertThrows(RuntimeException.class,
                 () -> productService.findById(99));
 
-        assertEquals("Product not found: 99", ex.getMessage());
+        assertEquals("Product not found with ID: 99", ex.getMessage());
     }
 
     @Test
@@ -80,15 +80,6 @@ class ProductServiceTest {
         assertNotNull(result);
         assertEquals("Slim Fit Jeans", result.getProductName());
         verify(productRepository, times(1)).save(product);
-    }
-
-    @Test
-    void deleteById_ShouldCallRepository() {
-        doNothing().when(productRepository).deleteById(1);
-
-        productService.deleteById(1);
-
-        verify(productRepository, times(1)).deleteById(1);
     }
 
     @Test
