@@ -1,17 +1,19 @@
 package org.example.order_inventory_system.service;
 
-import lombok.RequiredArgsConstructor;
+import org.example.order_inventory_system.exception.CustomerNotFoundException;
 import org.example.order_inventory_system.model.Customer;
 import org.example.order_inventory_system.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class CustomerService {
 
-
     private final CustomerRepository customerRepository;
+
+    public CustomerService(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
+    }
 
     public List<Customer> findAll() {
         return customerRepository.findAll();
@@ -19,7 +21,7 @@ public class CustomerService {
 
     public Customer findById(Integer id) {
         return customerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Customer not found: " + id));
+                .orElseThrow(() -> new CustomerNotFoundException(id));
     }
 
     public Customer save(Customer customer) {

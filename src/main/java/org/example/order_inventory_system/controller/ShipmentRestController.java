@@ -1,7 +1,6 @@
 package org.example.order_inventory_system.controller;
 
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.example.order_inventory_system.model.Shipment;
 import org.example.order_inventory_system.service.ShipmentService;
 import org.springframework.http.HttpStatus;
@@ -10,12 +9,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/api/shipments")
-@RequiredArgsConstructor
 public class ShipmentRestController {
 
     private final ShipmentService shipmentService;
+
+    public ShipmentRestController(ShipmentService shipmentService) {
+        this.shipmentService = shipmentService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Shipment>> getAll() {

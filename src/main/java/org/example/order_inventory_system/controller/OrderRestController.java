@@ -1,7 +1,6 @@
 package org.example.order_inventory_system.controller;
 
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.example.order_inventory_system.model.Order;
 import org.example.order_inventory_system.service.OrderService;
 import org.springframework.http.HttpStatus;
@@ -12,10 +11,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/orders")
-@RequiredArgsConstructor
 public class OrderRestController {
 
     private final OrderService orderService;
+
+    public OrderRestController(OrderService orderService) {
+        this.orderService = orderService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Order>> getAll() {
@@ -47,6 +49,9 @@ public class OrderRestController {
     @PostMapping
     public ResponseEntity<Order> create(@Valid @RequestBody Order order) {
         order.setOrderId(null);
+        if (order.getOrderTms() == null) {
+            order.setOrderTms(java.time.LocalDateTime.now()); // auto-set if not provided
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(orderService.save(order));
     }
 

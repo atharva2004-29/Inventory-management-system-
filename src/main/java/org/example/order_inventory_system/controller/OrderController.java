@@ -1,7 +1,6 @@
 package org.example.order_inventory_system.controller;
 
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.example.order_inventory_system.model.Order;
 import org.example.order_inventory_system.service.CustomerService;
 import org.example.order_inventory_system.service.OrderService;
@@ -14,13 +13,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/orders")
-
-@RequiredArgsConstructor
 public class OrderController {
 
     private final OrderService orderService;
     private final CustomerService customerService;
     private final StoreService storeService;
+
+    public OrderController(OrderService orderService, CustomerService customerService, StoreService storeService) {
+        this.orderService = orderService;
+        this.customerService = customerService;
+        this.storeService = storeService;
+    }
 
     // List all / filter by status
     @GetMapping

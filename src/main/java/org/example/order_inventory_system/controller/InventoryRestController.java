@@ -1,7 +1,6 @@
 package org.example.order_inventory_system.controller;
 
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.example.order_inventory_system.model.Inventory;
 import org.example.order_inventory_system.service.InventoryService;
 import org.springframework.http.HttpStatus;
@@ -13,10 +12,13 @@ import java.util.List;
 @RestController
 
 @RequestMapping("/api/inventory")
-@RequiredArgsConstructor
 public class InventoryRestController {
 
     private final InventoryService inventoryService;
+
+    public InventoryRestController(InventoryService inventoryService) {
+        this.inventoryService = inventoryService;
+    }
 
     // GET all inventory
     @GetMapping
@@ -32,11 +34,8 @@ public class InventoryRestController {
 
     // GET by product ID
     @GetMapping("/product/{productId}")
-    public ResponseEntity<Inventory> getByProductId(@PathVariable Integer productId) {
-        return ResponseEntity.ok(
-            inventoryService.findByProductId(productId)
-                .orElseThrow(() -> new RuntimeException("Inventory not found for product: " + productId))
-        );
+    public ResponseEntity<List<Inventory>> getByProductId(@PathVariable Integer productId) {
+        return ResponseEntity.ok(inventoryService.findAllByProductId(productId));
     }
 
     // GET by store ID

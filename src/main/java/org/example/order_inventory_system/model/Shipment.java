@@ -2,9 +2,7 @@ package org.example.order_inventory_system.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
 
-@Data
 @Entity
 @Table(name = "shipments")
 public class Shipment {
@@ -29,4 +27,23 @@ public class Shipment {
 
     @Column(name = "shipment_status")
     private String shipmentStatus;
+
+    // Manual No-Args Constructor
+    public Shipment() {}
+
+    // Getters and Setters
+    public Integer getShipmentId() { return shipmentId; }
+    public void setShipmentId(Integer shipmentId) { this.shipmentId = shipmentId; }
+
+    public Store getStore() { return store; }
+    public void setStore(Store store) { this.store = store; }
+
+    public Customer getCustomer() { return customer; }
+    public void setCustomer(Customer customer) { this.customer = customer; }
+
+    public String getDeliveryAddress() { return deliveryAddress; }
+    public void setDeliveryAddress(String deliveryAddress) { this.deliveryAddress = deliveryAddress; }
+
+    public String getShipmentStatus() { return shipmentStatus; }
+    public void setShipmentStatus(String shipmentStatus) { this.shipmentStatus = shipmentStatus; }
 }

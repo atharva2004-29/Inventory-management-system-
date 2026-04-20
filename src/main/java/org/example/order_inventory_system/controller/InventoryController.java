@@ -1,7 +1,6 @@
 package org.example.order_inventory_system.controller;
 
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.example.order_inventory_system.model.Inventory;
 import org.example.order_inventory_system.service.InventoryService;
 import org.example.order_inventory_system.service.ProductService;
@@ -14,12 +13,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/inventory")
-@RequiredArgsConstructor
-public class  InventoryController {
+public class InventoryController {
 
     private final InventoryService inventoryService;
     private final ProductService productService;
     private final StoreService storeService;
+
+    public InventoryController(InventoryService inventoryService, ProductService productService, StoreService storeService) {
+        this.inventoryService = inventoryService;
+        this.productService = productService;
+        this.storeService = storeService;
+    }
 
     // List all / filter by low stock
     @GetMapping

@@ -1,21 +1,25 @@
 package org.example.order_inventory_system.service;
 
-import lombok.RequiredArgsConstructor;
-import org.example.order_inventory_system.model.Customer;
-import org.example.order_inventory_system.model.Inventory;
-import org.example.order_inventory_system.model.Order;
-import org.example.order_inventory_system.model.Store;
+import org.example.order_inventory_system.model.*;
 import org.example.order_inventory_system.repository.InventoryRepository;
+import org.example.order_inventory_system.repository.OrderItemRepository;
 import org.example.order_inventory_system.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final InventoryRepository inventoryRepository; // ADD THIS
+    private final InventoryRepository inventoryRepository;
+    private final OrderItemRepository orderItemRepository;
+
+    public OrderService(OrderRepository orderRepository, InventoryRepository inventoryRepository, OrderItemRepository orderItemRepository) {
+        this.orderRepository = orderRepository;
+        this.inventoryRepository = inventoryRepository;
+        this.orderItemRepository = orderItemRepository;
+    }
+
 
 
     public List<Order> findAll() {
@@ -43,7 +47,7 @@ public class OrderService {
         return orderRepository.findByCustomer_CustomerId(customerId);
     }
 
-    public Order placeOrder(Integer customerId, Integer storeId, Integer productId) {
+    public Order placeOrder(Integer customerId, Integer storeId, Integer productId, Integer quantity) {
         // check inventory
         List<Inventory> inventoryList = inventoryRepository.findByStore_StoreId(storeId);
         Inventory inventory = inventoryList.stream()
@@ -52,15 +56,16 @@ public class OrderService {
                 .orElseThrow(() -> new RuntimeException(
                         "Product is not available at the selected store."));
 
-        if (inventory.getProductInventory() <= 0) {
-            throw new RuntimeException("Product is out of stock at the selected store.");
+        if (inventory.getProductInventory() < quantity) {
+            throw new RuntimeException(
+                    "Not enough stock. Available: " + inventory.getProductInventory());
         }
 
-        // deduct inventory
-        inventory.setProductInventory(inventory.getProductInventory() - 1);
+        // deduct inventory by quantity
+        inventory.setProductInventory(inventory.getProductInventory() - quantity);
         inventoryRepository.save(inventory);
 
-        // place order
+        // create order
         Customer customer = new Customer();
         customer.setCustomerId(customerId);
 
@@ -72,9 +77,23 @@ public class OrderService {
         order.setStore(store);
         order.setOrderStatus("OPEN");
         order.setOrderTms(java.time.LocalDateTime.now());
+        Order savedOrder = orderRepository.save(order);
 
-        return orderRepository.save(order);
+        // create order item with quantity
+        Product product = new Product();
+        product.setProductId(productId);
+
+        OrderItem orderItem = new OrderItem();
+        orderItem.setOrder(savedOrder);
+        orderItem.setLineItemId(1);
+        orderItem.setProduct(product);
+        orderItem.setUnitPrice(inventory.getProduct().getUnitPrice());
+        orderItem.setQuantity(quantity); // use actual quantity
+        orderItemRepository.save(orderItem);
+
+        return savedOrder;
     }
+
     public List<Order> findByStoreId(Integer storeId) {
         return orderRepository.findByStore_StoreId(storeId);
     }

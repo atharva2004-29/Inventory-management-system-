@@ -3,7 +3,6 @@ package org.example.order_inventory_system.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.example.order_inventory_system.model.Customer;
 import org.example.order_inventory_system.model.User;
 import org.example.order_inventory_system.repository.CustomerRepository;
@@ -12,6 +11,7 @@ import org.example.order_inventory_system.service.UserService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,12 +22,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 @Controller
-@RequiredArgsConstructor
 public class AuthController {
 
     private final UserService userService;
     private final UserRepository userRepository;
     private final CustomerRepository customerRepository;
+
+    public AuthController(UserService userService, UserRepository userRepository, CustomerRepository customerRepository) {
+        this.userService = userService;
+        this.userRepository = userRepository;
+        this.customerRepository = customerRepository;
+    }
 
     @GetMapping("/login")
     public String loginPage(@RequestParam(required = false) String error,
@@ -74,7 +79,12 @@ public class AuthController {
         model.addAttribute("user", new User());
         return "auth/register";
     }
-
+    @GetMapping("/hash-test")
+    @ResponseBody
+    public String hashTest() {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.encode("admin123");
+    }
     @PostMapping("/register")
     public String register(@Valid @ModelAttribute User user,
                            BindingResult result,
@@ -91,4 +101,10 @@ public class AuthController {
             return "auth/register";
         }
     }
+//    @GetMapping("/hash-test")
+//    @ResponseBody
+//    public String hashTest() {
+//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//        return encoder.encode("admin123");
+//    }
 }

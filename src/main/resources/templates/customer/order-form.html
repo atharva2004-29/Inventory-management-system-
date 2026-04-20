@@ -1,71 +1,62 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="UTF-8"/><title>Place Order</title></head>
+<head th:replace="~{layout :: common-head('Place Order')}"></head>
 <body>
-<h2>Place Order</h2>
-<nav>
-    <a href="/customer/dashboard">Dashboard</a> |
-    <a href="/customer/products">Browse Products</a> |
-    <a href="/customer/orders">My Orders</a> |
-    <a href="/customer/shipments">My Shipments</a> |
-    <form action="/logout" method="post" style="display:inline">
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-        <button type="submit">Logout</button>
-    </form>
-</nav>
-<hr/>
 
-<div th:if="${errorMessage}" style="color:red">
-    <p th:text="${errorMessage}"></p>
-</div>
+<div class="container">
+    <h2>Place Order</h2>
 
-<h3>You are ordering:</h3>
-<table border="1" cellpadding="6" cellspacing="0">
-    <tr>
-        <td>Product</td>
-        <td th:text="${product.productName}"></td>
-    </tr>
-    <tr>
-        <td>Brand</td>
-        <td th:text="${product.brand}"></td>
-    </tr>
-    <tr>
-        <td>Size</td>
-        <td th:text="${product.size}"></td>
-    </tr>
-    <tr>
-        <td>Price</td>
-        <td th:text="${product.unitPrice}"></td>
-    </tr>
-</table>
+    <nav th:replace="~{layout :: customer-nav}"></nav>
 
-<br/>
+    <div th:if="${errorMessage}" class="alert alert-error" style="margin-bottom: 2rem;">
+        <p th:text="${errorMessage}"></p>
+    </div>
 
-<form action="/customer/order/place" method="post">
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-    <input type="hidden" name="productId" th:value="${product.productId}"/>
+    <div class="form-card" style="margin-bottom: 2rem;">
+        <h3 style="margin-top: 0; margin-bottom: 1.5rem; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 0.5rem;">Product Details</h3>
+        <div class="table-container" style="box-shadow: none; border: 1px solid #ecf0f1;">
+            <table class="table" style="margin: 0;">
+                <tr><td><strong>Product</strong></td><td th:text="${product.productName}"></td></tr>
+                <tr><td><strong>Brand</strong></td><td th:text="${product.brand}"></td></tr>
+                <tr><td><strong>Size</strong></td><td th:text="${product.size}"></td></tr>
+                <tr><td><strong>Price per unit</strong></td><td th:text="${product.unitPrice}"></td></tr>
+            </table>
+        </div>
+    </div>
 
-    <table>
-        <tr>
-            <td><label for="storeId">Select Store</label></td>
-            <td>
-                <select id="storeId" name="storeId">
+    <div class="form-card">
+        <h3 style="margin-top: 0; margin-bottom: 1.5rem; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 0.5rem;">Order Options</h3>
+        <form th:action="@{/customer/order/place}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <input type="hidden" name="productId" th:value="${product.productId}"/>
+
+            <div class="form-group">
+                <label for="storeId">Select Store</label>
+                <select id="storeId" name="storeId" required>
                     <option value="">-- Select a Store --</option>
-                    <option th:each="store : ${stores}"
-                            th:value="${store.storeId}"
-                            th:text="${store.storeName}">
+                    <option th:each="inv : ${inventoryList}"
+                            th:value="${inv.store.storeId}"
+                            th:text="${inv.store.storeName} + ' (' + ${inv.productInventory} + ' in stock)'">
                     </option>
                 </select>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <button type="submit">Confirm Order</button>
-                <a href="/customer/products">Cancel</a>
-            </td>
-        </tr>
-    </table>
-</form>
+            </div>
+
+            <div class="form-group">
+                <label for="quantity">Quantity</label>
+                <input type="number" id="quantity" name="quantity" value="1" min="1" required/>
+            </div>
+
+            <div class="actions">
+                <button type="submit" class="btn btn-primary">Confirm Order</button>
+                <a th:href="@{/customer/products}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer>
+    <p style="text-align: center; margin-top: 2rem; color: #7f8c8d;">&copy; 2024 Order Inventory Management System. All rights reserved.</p>
+</footer>
 
 </body>
 </html>

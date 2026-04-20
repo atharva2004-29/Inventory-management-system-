@@ -1,16 +1,18 @@
 package org.example.order_inventory_system.service;
 
-import lombok.RequiredArgsConstructor;
 import org.example.order_inventory_system.model.Shipment;
 import org.example.order_inventory_system.repository.ShipmentRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class ShipmentService {
 
     private final ShipmentRepository shipmentRepository;
+
+    public ShipmentService(ShipmentRepository shipmentRepository) {
+        this.shipmentRepository = shipmentRepository;
+    }
 
     public List<Shipment> findAll() {
         return shipmentRepository.findAll();

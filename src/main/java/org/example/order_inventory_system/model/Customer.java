@@ -3,9 +3,7 @@ package org.example.order_inventory_system.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
 
-@Data
 @Entity
 @Table(name = "customers")
 public class Customer {
@@ -23,4 +21,17 @@ public class Customer {
     @NotBlank(message = "Full name is required")
     @Column(name = "full_name", nullable = false)
     private String fullName;
+
+    // Manual No-Args Constructor
+    public Customer() {}
+
+    // Getters and Setters
+    public Integer getCustomerId() { return customerId; }
+    public void setCustomerId(Integer customerId) { this.customerId = customerId; }
+
+    public String getEmailAddress() { return emailAddress; }
+    public void setEmailAddress(String emailAddress) { this.emailAddress = emailAddress; }
+
+    public String getFullName() { return fullName; }
+    public void setFullName(String fullName) { this.fullName = fullName; }
 }

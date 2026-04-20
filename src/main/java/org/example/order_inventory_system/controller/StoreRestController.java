@@ -1,7 +1,6 @@
 package org.example.order_inventory_system.controller;
 
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.example.order_inventory_system.model.Inventory;
 import org.example.order_inventory_system.model.Order;
 import org.example.order_inventory_system.model.Shipment;
@@ -18,13 +17,19 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/stores")
-@RequiredArgsConstructor
 public class StoreRestController {
 
     private final StoreService storeService;
     private final InventoryService inventoryService;
     private final OrderService orderService;
     private final ShipmentService shipmentService;
+
+    public StoreRestController(StoreService storeService, InventoryService inventoryService, OrderService orderService, ShipmentService shipmentService) {
+        this.storeService = storeService;
+        this.inventoryService = inventoryService;
+        this.orderService = orderService;
+        this.shipmentService = shipmentService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Store>> getAll() {
